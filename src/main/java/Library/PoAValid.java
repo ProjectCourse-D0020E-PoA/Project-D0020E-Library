@@ -1,25 +1,36 @@
 package Library;
-import io.jsonwebtoken.Jwts;
 
-import java.util.ArrayList;
-import java.util.Date;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.security.SignatureException;
+
+import java.security.Key;
+
+import static io.jsonwebtoken.Jwts.parserBuilder;
 
 public class PoAValid {
 
-    private int                 recourceOwnerID;
-    private int                 transferable;
-    private String              pricipalPublicKey;
-    private String              principalName;
-    private String              agentKey;
-    private String              signingAlogrithm;
-    private Date                issuedAt;
-    private Date                expiredAt;
-    private ArrayList<String>   metaData;
+    public static Jws<Claims> decodeJWT(String token, Key publicKey){
+        try {
+            Jws<Claims> decoded = parserBuilder().setSigningKey(publicKey).build().parseClaimsJws(token);
+            return decoded;
+        }catch (SignatureException e){
+            throw new Error("Invalid");
+            //this Error gets thrown whenever the token/key pair is un able to be verified
+        }catch (ExpiredJwtException e){
+            throw new Error("Expired token");
+        }
+    }
 
-    public boolean isValid(PoA poa){return valid(poa);}
-    public boolean isValid(Jwts jwt){return valid(PoAGen.reconstruct(jwt));}
-    private boolean valid(PoA poa){
-        /* do stuff */
-        return true;
+    public static boolean validate(String token, Key publicKey){
+        try {
+            Jws<Claims> decoded = parserBuilder().setSigningKey(publicKey).build().parseClaimsJws(token);
+            return true;
+        }catch (SignatureException e){
+            return false;
+        }
+        //add handling in the case of an expired token
     }
 }
+
