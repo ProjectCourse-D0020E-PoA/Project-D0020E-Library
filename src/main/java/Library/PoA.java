@@ -71,12 +71,12 @@ public class PoA {
     }
 
     /**
-     * @param key
-     * @return
+     * @param privateKey (RS256 compatible)
+     * @return String containing JWT with added claims for all the PoAs stored information.
      */
-    public String exportJWT(Key key) {
+    public String exportJWT(Key privateKey) {
         return Jwts.builder()
-                .signWith(key)
+                .signWith(privateKey)
                 .setIssuedAt(this.issuedAt)
                 .setExpiration(this.expiredAt)
                 .claim("pricipalPublicKey", this.pricipalPublicKey)
