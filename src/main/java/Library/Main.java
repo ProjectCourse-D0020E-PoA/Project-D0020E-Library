@@ -25,10 +25,22 @@ public class Main {
                 "principalPublicKey",
                 "principalName",
                 "agentKey",
-                "RS256",
-                new Date(System.currentTimeMillis()+ 86400),
+                new Date(System.currentTimeMillis()+ Days(5)),
                 bob
                );
+
+        //sets everything to default values of 0 and "default"
+        //the issuing time to current time
+        //and Expiration time to current time + 7days
+        PoA def = PoAGen.generateDefault();
+
+        def.setAgentKey("AgentKey")
+                .setExpiredAt(new Date(System.currentTimeMillis()+Days(5)))
+                .setAgentKey("AgentKey")
+                .setPricipalPublicKey("ppk")
+                .setPrincipalName("pn")
+                .setTransferable(2)
+                .setMetaData(bob);
 
         // Converting the data stored in the PoA to a JWT using KeyPair1
         String JWT = testPoA.exportJWT(KeyPair1.getPrivate());
@@ -63,6 +75,12 @@ public class Main {
         //signing the reconstructed PoA to enable comparison
         String reconPoAToken = reconstructedPoA.exportJWT(KeyPair1.getPrivate());
         System.out.println("Reconstruct example: " + reconPoAToken.equals(token));
+
+
+    }
+
+    private static long Days(int i) {
+        return i * 86400000;
     }
 
 }

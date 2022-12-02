@@ -8,15 +8,59 @@ import java.util.Date;
 
 public class PoA {
 
-    private int recourceOwnerID;
-    private int transferable;
-    private String pricipalPublicKey;
-    private String principalName;
-    private String agentKey;
-    private String signingAlogrithm;
+    private int recourceOwnerID = 0;
+    private int transferable = 0;
+    private String pricipalPublicKey = "default";
+    private String principalName = "default";
+    private String agentKey = "default";
+    private String signingAlogrithm = "RS256";
     private Date issuedAt;
     private Date expiredAt;
-    private String metaData;
+    private String metaData = "default";
+
+    public PoA setRecourceOwnerID(int recourceOwnerID) {
+        this.recourceOwnerID = recourceOwnerID;
+        return this;
+    }
+
+    public PoA setTransferable(int transferable) {
+        this.transferable = transferable;
+        return this;
+    }
+
+    public PoA setPricipalPublicKey(String pricipalPublicKey) {
+        this.pricipalPublicKey = pricipalPublicKey;
+        return this;
+    }
+
+    public PoA setPrincipalName(String principalName) {
+        this.principalName = principalName;
+        return this;
+    }
+
+    public PoA setAgentKey(String agentKey) {
+        this.agentKey = agentKey;
+        return this;
+    }
+    /*
+    public PoA setSigningAlogrithm(String signingAlogrithm) {
+        this.signingAlogrithm = signingAlogrithm;
+        return this;
+    }
+    */
+    public PoA setExpiredAt(Date expiredAt) {
+        this.expiredAt = expiredAt;
+        return this;
+    }
+
+    public PoA setMetaData(String metaData) {
+        this.metaData = metaData;
+        return this;
+    }
+    public PoA setMetaData(String[] metaData) {
+        this.metaData = metaData.toString();
+        return this;
+    }
 
     /**
      * @param recourceOwnerID
@@ -24,7 +68,6 @@ public class PoA {
      * @param pricipalPublicKey
      * @param principalName
      * @param agentKey
-     * @param signingAlogrithm
      * @param expiredAt
      * @param metaData
      */
@@ -34,7 +77,6 @@ public class PoA {
             String pricipalPublicKey,
             String principalName,
             String agentKey,
-            String signingAlogrithm,
             Date expiredAt,
             String[] metaData) {
 
@@ -54,7 +96,6 @@ public class PoA {
             String pricipalPublicKey,
             String principalName,
             String agentKey,
-            String signingAlogrithm,
             Date issuedAt,
             Date expiredAt,
             String metaData) {
@@ -64,12 +105,15 @@ public class PoA {
         this.transferable = transferable;
         this.principalName = principalName;
         this.agentKey = agentKey;
-        this.signingAlogrithm = signingAlogrithm;
         this.issuedAt = issuedAt;
         this.expiredAt = expiredAt;
         this.metaData = metaData;
     }
 
+    protected PoA(){
+        this.issuedAt = new Date();
+        this.expiredAt = new Date(System.currentTimeMillis()+604800000);
+    };
     /**
      * @param privateKey (RS256 compatible)
      * @return String containing JWT with added claims for all the PoAs stored information.
