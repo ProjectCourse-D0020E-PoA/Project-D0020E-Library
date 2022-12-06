@@ -16,7 +16,6 @@ public class Main {
         // Usually the key would be read from your application configuration instead.
         KeyPair KeyPair1 = Keys.keyPairFor(SignatureAlgorithm.RS256);
         KeyPair KeyPair2 = Keys.keyPairFor(SignatureAlgorithm.RS256);
-
         String[] bob ={"bob", "bob"};
 
         PoA testPoA = PoAGen.generate(
@@ -26,18 +25,16 @@ public class Main {
                 "principalName",
                 "agentKey",
                 new Date(System.currentTimeMillis()+ Days(5)),
-                bob
-               );
+                bob);
 
         //sets everything to default values of 0 and "default"
         //the issuing time to current time
         //and Expiration time to current time + 7days
-        PoA def = PoAGen.generateDefault();
-
-        def.setAgentKey("AgentKey")
+        PoA def = PoAGen.generateDefault()
+                .setAgentKey("AgentKey")
                 .setExpiredAt(new Date(System.currentTimeMillis()+Days(5)))
                 .setAgentKey("AgentKey")
-                .setPricipalPublicKey("ppk")
+                .setPrincipalPublicKey("ppk")
                 .setPrincipalName("pn")
                 .setTransferable(2)
                 .setMetaData(bob);

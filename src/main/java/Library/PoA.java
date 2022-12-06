@@ -8,9 +8,9 @@ import java.util.Date;
 
 public class PoA {
 
-    private int recourceOwnerID = 0;
+    private int resourceOwnerID = 0;
     private int transferable = 0;
-    private String pricipalPublicKey = "default";
+    private String principalPublicKey = "default";
     private String principalName = "default";
     private String agentKey = "default";
     private String signingAlogrithm = "RS256";
@@ -18,8 +18,8 @@ public class PoA {
     private Date expiredAt;
     private String metaData = "default";
 
-    public PoA setRecourceOwnerID(int recourceOwnerID) {
-        this.recourceOwnerID = recourceOwnerID;
+    public PoA setResourceOwnerID(int resourceOwnerID) {
+        this.resourceOwnerID = resourceOwnerID;
         return this;
     }
 
@@ -28,8 +28,8 @@ public class PoA {
         return this;
     }
 
-    public PoA setPricipalPublicKey(String pricipalPublicKey) {
-        this.pricipalPublicKey = pricipalPublicKey;
+    public PoA setPrincipalPublicKey(String principalPublicKey) {
+        this.principalPublicKey = principalPublicKey;
         return this;
     }
 
@@ -63,9 +63,9 @@ public class PoA {
     }
 
     /**
-     * @param recourceOwnerID
+     * @param resourceOwnerID
      * @param transferable
-     * @param pricipalPublicKey
+     * @param principalPublicKey
      * @param principalName
      * @param agentKey
      * @param expiredAt
@@ -80,8 +80,8 @@ public class PoA {
             Date expiredAt,
             String[] metaData) {
 
-        this.pricipalPublicKey = pricipalPublicKey;
-        this.recourceOwnerID = recourceOwnerID;
+        this.principalPublicKey = pricipalPublicKey;
+        this.resourceOwnerID = recourceOwnerID;
         this.transferable = transferable;
         this.principalName = principalName;
         this.agentKey = agentKey;
@@ -100,8 +100,8 @@ public class PoA {
             Date expiredAt,
             String metaData) {
 
-        this.pricipalPublicKey = pricipalPublicKey;
-        this.recourceOwnerID = recourceOwnerID;
+        this.principalPublicKey = pricipalPublicKey;
+        this.resourceOwnerID = recourceOwnerID;
         this.transferable = transferable;
         this.principalName = principalName;
         this.agentKey = agentKey;
@@ -123,9 +123,9 @@ public class PoA {
                 .signWith(privateKey)
                 .setIssuedAt(this.issuedAt)
                 .setExpiration(this.expiredAt)
-                .claim("pricipalPublicKey", this.pricipalPublicKey)
+                .claim("pricipalPublicKey", this.principalPublicKey)
                 .claim("principalName", this.principalName)
-                .claim("recourceOwnerID", this.recourceOwnerID)
+                .claim("recourceOwnerID", this.resourceOwnerID)
                 .claim("transferable", this.transferable)
                 .claim("metaData", this.metaData)
                 .claim("agentKey", this.agentKey)
