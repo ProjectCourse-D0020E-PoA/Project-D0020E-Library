@@ -25,12 +25,28 @@ public class PoAValid {
 
     public static boolean validate(String token, Key publicKey){
         try {
-            Jws<Claims> decoded = parserBuilder().setSigningKey(publicKey).build().parseClaimsJws(token);
+            parserBuilder().setSigningKey(publicKey).build().parseClaimsJws(token);
             return true;
         }catch (SignatureException e){
             return false;
         }
         //add handling in the case of an expired token
+    }
+    
+    public static boolean validateRecursively(String token, Key publicKey){
+        try {
+            Claims decoded = decodeJWT(token,publicKey).getBody();
+            if (decoded.get("metaData").toString() != "default"){
+                //split seams to be not working
+                String[] metaData = decoded.get("metaData").toString().replace("jwt = ","").replace( " sender = ","").split("-----");
+                return validateRecursively(metaData[0],KeyEncDec.decodeKeyBytesPublic(metaData[1]));
+            }
+            else{
+                return validate(token,publicKey);
+            }
+        }catch (Error e){
+            return false;
+        }
     }
 }
 

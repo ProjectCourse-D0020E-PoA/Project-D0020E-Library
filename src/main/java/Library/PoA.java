@@ -12,7 +12,8 @@ public class PoA {
     private int transferable = 0;
     private String principalPublicKey = "default";
     private String principalName = "default";
-    private String agentKey = "default";
+    private String agentPublicKey = "default";
+    private String agentName = "default";
     private String signingAlogrithm = "RS256";
     private Date issuedAt;
     private Date expiredAt;
@@ -38,8 +39,12 @@ public class PoA {
         return this;
     }
 
-    public PoA setAgentKey(String agentKey) {
-        this.agentKey = agentKey;
+    public PoA setAgentPublicKey(String agentPublicKey) {
+        this.agentPublicKey = agentPublicKey;
+        return this;
+    }
+    public PoA setAgentName(String agentName) {
+        this.agentName = agentName;
         return this;
     }
     /*
@@ -77,6 +82,7 @@ public class PoA {
             String pricipalPublicKey,
             String principalName,
             String agentKey,
+            String agentName,
             Date expiredAt,
             String[] metaData) {
 
@@ -84,12 +90,18 @@ public class PoA {
         this.resourceOwnerID = recourceOwnerID;
         this.transferable = transferable;
         this.principalName = principalName;
-        this.agentKey = agentKey;
+        this.agentPublicKey = agentKey;
+        this.agentName = agentName;
         this.signingAlogrithm = signingAlogrithm;
         this.issuedAt = new Date(System.currentTimeMillis());
         this.expiredAt = expiredAt;
         this.metaData = Arrays.toString(metaData);
     }
+
+    public int getTransferable() {
+        return transferable;
+    }
+
     protected PoA(
             int recourceOwnerID,
             int transferable,
@@ -104,7 +116,7 @@ public class PoA {
         this.resourceOwnerID = recourceOwnerID;
         this.transferable = transferable;
         this.principalName = principalName;
-        this.agentKey = agentKey;
+        this.agentPublicKey = agentKey;
         this.issuedAt = issuedAt;
         this.expiredAt = expiredAt;
         this.metaData = metaData;
@@ -128,7 +140,7 @@ public class PoA {
                 .claim("recourceOwnerID", this.resourceOwnerID)
                 .claim("transferable", this.transferable)
                 .claim("metaData", this.metaData)
-                .claim("agentKey", this.agentKey)
+                .claim("agentKey", this.agentPublicKey)
                 .claim("signingAlogrithm", "RS256")
                 .compact();
     }

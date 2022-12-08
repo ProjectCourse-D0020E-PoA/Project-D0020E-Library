@@ -12,6 +12,7 @@ public class PoAGen {
             String pricipalPublicKey,
             String principalName,
             String agentKey,
+            String agentName,
             Date expiredAt,
             String[] metaData){
 
@@ -21,10 +22,14 @@ public class PoAGen {
                     pricipalPublicKey,
                     principalName,
                     agentKey,
+                    agentName,
                     expiredAt,
                     metaData);
     }
 
+    /**
+     * @return returns a PoA object setup with default values that's valid for a week from time of creation
+     */
     public static PoA generateDefault(){
         return new PoA();
     }
@@ -42,5 +47,15 @@ public class PoAGen {
                 new Date((long) (int) body.get("iat") *1000),
                 new Date((long) (int) body.get("exp") *1000),
                 (String) body.get("metaData"));
+    }
+    public static PoA transfer(String token, Key PublicKeySource, Key PublicKeyOwn){
+        PoA poa = reconstruct(token,PublicKeySource);
+
+        if(poa.getTransferable() != 0){
+            poa.setTransferable(poa.getTransferable() - 1);
+            //maby replade this usage of metadata with its own variable in the poa object
+            poa.setMetaData("jwt = " + token + "----- sender = " + KeyEncDec.stringEncodedKey(PublicKeyOwn));
+        }
+        return poa;
     }
 }

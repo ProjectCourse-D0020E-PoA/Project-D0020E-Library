@@ -1,21 +1,60 @@
 package Library;
 
 
-import java.security.KeyPair;
-import java.util.Date;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
+import java.security.*;
+import java.util.Base64;
+
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+
+import static Library.PoAValid.validateRecursively;
 
 public class Main {
 
     public static void main(String[] args){
 
-        // We need a signing key, so we'll create two just for this example.
-        // Usually the key would be read from your application configuration instead.
-        KeyPair KeyPair1 = Keys.keyPairFor(SignatureAlgorithm.RS256);
-        KeyPair KeyPair2 = Keys.keyPairFor(SignatureAlgorithm.RS256);
+        //3 pairs of keys to represent the 3 parts
+        //this is based on the assumption everyone knows everyone's public keys and private keys are only known to yourself
+        KeyPair principalKeypair = Keys.keyPairFor(SignatureAlgorithm.RS256);
+        KeyPair agent1Keypair = Keys.keyPairFor(SignatureAlgorithm.RS256);
+        KeyPair agent2Keypair = Keys.keyPairFor(SignatureAlgorithm.RS256);
+
+        String encodedKey = Base64.getEncoder().encodeToString(principalKeypair.getPublic().getEncoded());
+        byte[] keyBytes = Base64.getDecoder().decode(encodedKey);
+        //Key pubEncDec = (Key) new SecretKeySpec(decodedKey,0,decodedKey.length,"RS256");
+
+        Key pubEncDec = KeyEncDec.decodeKeyBytesPublic(KeyEncDec.stringEncodedKey(principalKeypair.getPublic()));
+
+        System.out.println(PoAValid.validate(PoAGen.generateDefault().exportJWT(principalKeypair.getPrivate()),pubEncDec));
+
+
+
+        //principal generates a PoA and "sends" it to agent1
+        PoA principalPoa = PoAGen
+                .generateDefault()
+                .setTransferable(1)
+                .setPrincipalPublicKey(KeyEncDec.stringEncodedKey(principalKeypair.getPublic()))
+                .setPrincipalName("bob")
+                .setAgentPublicKey(KeyEncDec.stringEncodedKey(agent1Keypair.getPublic()))
+                .setAgentName("agent1");
+        String transmitToken = principalPoa.exportJWT(principalKeypair.getPrivate());
+
+        //agent1 receives the JWT and transfers it to agent2
+        String recivedToken = transmitToken; /* agent 1 receives the token */
+        PoA principalPoaEncapsulated = PoAGen.transfer(recivedToken,principalKeypair.getPublic(),agent1Keypair.getPublic());
+        principalPoaEncapsulated
+                .setAgentName("agent2")
+                .setAgentPublicKey(agent2Keypair.getPublic().toString());
+        String transmitToken2 = principalPoaEncapsulated.exportJWT(agent1Keypair.getPrivate()); //agent 1 signs using their own key so that the chain of the Poa is verifiable
+
+        //agent 2 receives the transferred poa and verifies it recursively
+        String reciveToken2 = transmitToken2;
+        System.out.println("The validity of the transferred token: " + validateRecursively(reciveToken2,agent1Keypair.getPublic()));
+
+
+
+        //a bunch of basic examples using the "library"
+        /*
         String[] bob ={"bob", "bob"};
 
         PoA testPoA = PoAGen.generate(
@@ -24,6 +63,7 @@ public class Main {
                 "principalPublicKey",
                 "principalName",
                 "agentKey",
+                "agentName",
                 new Date(System.currentTimeMillis()+ Days(5)),
                 bob);
 
@@ -31,49 +71,49 @@ public class Main {
         //the issuing time to current time
         //and Expiration time to current time + 7days
         PoA def = PoAGen.generateDefault()
-                .setAgentKey("AgentKey")
+                .setAgentPublicKey("AgentKey")
                 .setExpiredAt(new Date(System.currentTimeMillis()+Days(5)))
-                .setAgentKey("AgentKey")
+                .setAgentName("AgentName")
                 .setPrincipalPublicKey("ppk")
                 .setPrincipalName("pn")
                 .setTransferable(2)
                 .setMetaData(bob);
 
-        // Converting the data stored in the PoA to a JWT using KeyPair1
-        String JWT = testPoA.exportJWT(KeyPair1.getPrivate());
+        // Converting the data stored in the PoA to a JWT using principalKeypair
+        String JWT = testPoA.exportJWT(principalKeypair.getPrivate());
         System.out.println("Json web token: " + JWT);
 
 
-        // Decoding the JWT signed with KeyPair1 using KeyPair1
-        Jws<Claims> res = PoAValid.decodeJWT(JWT, KeyPair1.getPublic());
+        // Decoding the JWT signed with principalKeypair using principalKeypair
+        Jws<Claims> res = PoAValid.decodeJWT(JWT, principalKeypair.getPublic());
         System.out.println("Decoding with correct key example: " + res.getBody().values());
 
-        // Decoding the JWT signed with KeyPair1 using KeyPair2.
+        // Decoding the JWT signed with principalKeypair using agent1Keypair.
         // This should throw the Invalid Error
         try {
-            res = PoAValid.decodeJWT(JWT, KeyPair2.getPublic());
+            res = PoAValid.decodeJWT(JWT, agent1Keypair.getPublic());
             System.out.println(res.getBody().values());
         }catch(Error e){
             System.out.println("Decoding with wrong key example: " + e.getMessage());
         }
 
         //validating with the correct key
-        System.out.println("valid example: " + PoAValid.validate(JWT,KeyPair1.getPublic()));
+        System.out.println("valid example: " + PoAValid.validate(JWT,principalKeypair.getPublic()));
 
         //validating with the incorrect key
-        System.out.println("invalid example: " + PoAValid.validate(JWT,KeyPair2.getPublic()));
+        System.out.println("invalid example: " + PoAValid.validate(JWT,agent1Keypair.getPublic()));
 
         //getting a specific claim out of the token
         System.out.println("getting claim Example: " + (int)res.getBody().get("iat"));
 
         //Reconstruction a PoA from the JWT
-        String token = testPoA.exportJWT(KeyPair1.getPrivate());
-        PoA reconstructedPoA = PoAGen.reconstruct(token,KeyPair1.getPublic());
+        String token = testPoA.exportJWT(principalKeypair.getPrivate());
+        PoA reconstructedPoA = PoAGen.reconstruct(token,principalKeypair.getPublic());
         //signing the reconstructed PoA to enable comparison
-        String reconPoAToken = reconstructedPoA.exportJWT(KeyPair1.getPrivate());
+        String reconPoAToken = reconstructedPoA.exportJWT(principalKeypair.getPrivate());
         System.out.println("Reconstruct example: " + reconPoAToken.equals(token));
 
-
+    */
     }
 
     private static long Days(int i) {
