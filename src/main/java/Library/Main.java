@@ -20,15 +20,6 @@ public class Main {
         KeyPair agent1Keypair = Keys.keyPairFor(SignatureAlgorithm.RS256);
         KeyPair agent2Keypair = Keys.keyPairFor(SignatureAlgorithm.RS256);
 
-        String encodedKey = Base64.getEncoder().encodeToString(principalKeypair.getPublic().getEncoded());
-        byte[] keyBytes = Base64.getDecoder().decode(encodedKey);
-        //Key pubEncDec = (Key) new SecretKeySpec(decodedKey,0,decodedKey.length,"RS256");
-
-        Key pubEncDec = KeyEncDec.decodeKeyBytesPublic(KeyEncDec.stringEncodedKey(principalKeypair.getPublic()));
-
-        System.out.println(validate(PoAGen.generateDefault().exportJWT(principalKeypair.getPrivate()),pubEncDec));
-
-
 
         //principal generates a PoA and "sends" it to agent1
         PoA principalPoa = PoAGen
