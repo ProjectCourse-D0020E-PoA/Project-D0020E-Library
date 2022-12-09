@@ -48,13 +48,14 @@ public class PoAGen {
                 new Date((long) (int) body.get("exp") *1000),
                 (String) body.get("metaData"));
     }
-    public static PoA transfer(String token, Key PublicKeySource, Key PublicKeyOwn){
+    public static PoA transfer(String token, Key PublicKeySource){
         PoA poa = reconstruct(token,PublicKeySource);
 
         if(poa.getTransferable() != 0){
             poa.setTransferable(poa.getTransferable() - 1);
+
             //maby replade this usage of metadata with its own variable in the poa object
-            poa.setMetaData("jwt = " + token + "----- sender = " + KeyEncDec.stringEncodedKey(PublicKeyOwn));
+            poa.setMetaData(token + "-----" + KeyEncDec.stringEncodedKey(PublicKeySource));
         }
         return poa;
     }

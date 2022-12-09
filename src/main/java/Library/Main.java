@@ -4,10 +4,11 @@ package Library;
 import java.security.*;
 import java.util.Base64;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
-import static Library.PoAValid.validateRecursively;
+import static Library.PoAValid.*;
 
 public class Main {
 
@@ -25,7 +26,7 @@ public class Main {
 
         Key pubEncDec = KeyEncDec.decodeKeyBytesPublic(KeyEncDec.stringEncodedKey(principalKeypair.getPublic()));
 
-        System.out.println(PoAValid.validate(PoAGen.generateDefault().exportJWT(principalKeypair.getPrivate()),pubEncDec));
+        System.out.println(validate(PoAGen.generateDefault().exportJWT(principalKeypair.getPrivate()),pubEncDec));
 
 
 
@@ -39,19 +40,24 @@ public class Main {
                 .setAgentName("agent1");
         String transmitToken = principalPoa.exportJWT(principalKeypair.getPrivate());
 
+
+
         //agent1 receives the JWT and transfers it to agent2
         String recivedToken = transmitToken; /* agent 1 receives the token */
-        PoA principalPoaEncapsulated = PoAGen.transfer(recivedToken,principalKeypair.getPublic(),agent1Keypair.getPublic());
+        PoA principalPoaEncapsulated = PoAGen.transfer(recivedToken,principalKeypair.getPublic());
         principalPoaEncapsulated
                 .setAgentName("agent2")
-                .setAgentPublicKey(agent2Keypair.getPublic().toString());
+                .setAgentPublicKey(KeyEncDec.stringEncodedKey(agent2Keypair.getPublic()));
         String transmitToken2 = principalPoaEncapsulated.exportJWT(agent1Keypair.getPrivate()); //agent 1 signs using their own key so that the chain of the Poa is verifiable
+
+
 
         //agent 2 receives the transferred poa and verifies it recursively
         String reciveToken2 = transmitToken2;
-        System.out.println("The validity of the transferred token: " + validateRecursively(reciveToken2,agent1Keypair.getPublic()));
+        System.out.println("The transferred token is valid: " + validateRecursively(reciveToken2,agent1Keypair.getPublic()));
+        PoA recon = PoAGen.reconstruct(reciveToken2, agent1Keypair.getPublic());
 
-
+        System.out.println("b");
 
         //a bunch of basic examples using the "library"
         /*

@@ -36,9 +36,9 @@ public class PoAValid {
     public static boolean validateRecursively(String token, Key publicKey){
         try {
             Claims decoded = decodeJWT(token,publicKey).getBody();
-            if (decoded.get("metaData").toString() != "default"){
-                //split seams to be not working
-                String[] metaData = decoded.get("metaData").toString().replace("jwt = ","").replace( " sender = ","").split("-----");
+            String metaDat = decoded.get("metaData").toString();
+            if (metaDat.equals("default")){
+                String[] metaData = decoded.get("metaData").toString().split("-----");
                 return validateRecursively(metaData[0],KeyEncDec.decodeKeyBytesPublic(metaData[1]));
             }
             else{
