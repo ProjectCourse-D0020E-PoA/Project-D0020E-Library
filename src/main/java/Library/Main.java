@@ -16,11 +16,11 @@ public class Main {
 
         //3 pairs of keys to represent the 3 parts
         //this is based on the assumption everyone knows everyone's public keys and private keys are only known to yourself
-        KeyPair principalKeypair = Keys.keyPairFor(SignatureAlgorithm.RS256);
-        KeyPair agent1Keypair = Keys.keyPairFor(SignatureAlgorithm.RS256);
-        KeyPair agent2Keypair = Keys.keyPairFor(SignatureAlgorithm.RS256);
+        KeyPair principalKeypair    = Keys.keyPairFor(SignatureAlgorithm.RS256);
+        KeyPair agent1Keypair       = Keys.keyPairFor(SignatureAlgorithm.RS256);
+        KeyPair agent2Keypair       = Keys.keyPairFor(SignatureAlgorithm.RS256);
 
-
+        /** Principal */
         //principal generates a PoA and "sends" it to agent1
         PoA principalPoa = PoAGen
                 .generateDefault()
@@ -32,7 +32,7 @@ public class Main {
         String transmitToken = principalPoa.exportJWT(principalKeypair.getPrivate());
 
 
-
+        /** Agent 1 */
         //agent1 receives the JWT and transfers it to agent2
         String recivedToken = transmitToken; /* agent 1 receives the token */
         PoA principalPoaEncapsulated = PoAGen.transfer(recivedToken,principalKeypair.getPublic());
@@ -42,7 +42,7 @@ public class Main {
         String transmitToken2 = principalPoaEncapsulated.exportJWT(agent1Keypair.getPrivate()); //agent 1 signs using their own key so that the chain of the Poa is verifiable
 
 
-
+        /** Agent 2 */
         //agent 2 receives the transferred poa and verifies it recursively
         String reciveToken2 = transmitToken2;
         System.out.println("The transferred token is valid: " + validateRecursively(reciveToken2,agent1Keypair.getPublic()));
