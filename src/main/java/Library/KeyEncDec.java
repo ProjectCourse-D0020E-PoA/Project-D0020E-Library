@@ -7,7 +7,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 
-class KeyEncDec {
+public class KeyEncDec {
     public static Key decodeKeyBytesPublic(String encodedPublicKey){
         byte[] keyBytes = Base64.getDecoder().decode(encodedPublicKey);
         try {

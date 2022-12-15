@@ -17,6 +17,17 @@ public class PoA {
     private String signingAlogrithm = "RS256";
     private Date issuedAt;
     private Date expiredAt;
+
+    public String getPath() {
+        return path;
+    }
+
+    public PoA setPath(String path) {
+        this.path = path;
+        return this;
+    }
+
+    private String path = "";
     private String metaData = "default";
 
     public PoA setResourceOwnerID(int resourceOwnerID) {
@@ -142,6 +153,7 @@ public class PoA {
                 .claim("metaData", this.metaData)
                 .claim("agentKey", this.agentPublicKey)
                 .claim("signingAlogrithm", "RS256")
+                .claim("path",this.path)
                 .compact();
     }
 }

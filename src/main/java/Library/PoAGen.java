@@ -46,7 +46,9 @@ public class PoAGen {
                 (String) body.get("agentKey"),
                 new Date((long) (int) body.get("iat") *1000),
                 new Date((long) (int) body.get("exp") *1000),
-                (String) body.get("metaData"));
+                (String) body.get("metaData"))
+                .setPath((String) body.get("path"));
+
     }
     public static PoA transfer(String token, Key PublicKeySource){
         PoA poa = reconstruct(token,PublicKeySource);
@@ -55,7 +57,7 @@ public class PoAGen {
             poa.setTransferable(poa.getTransferable() - 1);
 
             //maby replade this usage of metadata with its own variable in the poa object
-            poa.setMetaData(token + "-----" + KeyEncDec.stringEncodedKey(PublicKeySource));
+            poa.setPath(token + "-----" + KeyEncDec.stringEncodedKey(PublicKeySource));
         }
         return poa;
     }
