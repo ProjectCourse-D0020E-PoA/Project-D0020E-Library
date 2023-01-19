@@ -3,8 +3,10 @@ package Library;
 
 import java.security.*;
 import java.util.Base64;
+import java.util.Date;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
@@ -48,10 +50,9 @@ public class Main {
         System.out.println("The transferred token is valid: " + validateRecursively(reciveToken2,agent1Keypair.getPublic()));
         PoA recon = PoAGen.reconstruct(reciveToken2, agent1Keypair.getPublic());
 
-        System.out.println("b");
 
         //a bunch of basic examples using the "library"
-        /*
+
         String[] bob ={"bob", "bob"};
 
         PoA testPoA = PoAGen.generate(
@@ -110,7 +111,7 @@ public class Main {
         String reconPoAToken = reconstructedPoA.exportJWT(principalKeypair.getPrivate());
         System.out.println("Reconstruct example: " + reconPoAToken.equals(token));
 
-    */
+
     }
 
     private static long Days(int i) {
