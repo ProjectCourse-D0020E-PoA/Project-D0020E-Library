@@ -7,9 +7,9 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 
-public class KeyEncDec {
     //The method takes in a string and returns a key object. 
     //The string is decoded using the Base64 class and then converted to a key object.
+public class KeyEncDec {
     public static Key decodeKeyBytesPublic(String encodedPublicKey){
         byte[] keyBytes = Base64.getDecoder().decode(encodedPublicKey);
         try {
