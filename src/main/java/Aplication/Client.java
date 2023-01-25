@@ -36,15 +36,7 @@ class Client{
                 new InputStreamReader(System.in));
         String str;
         ArrayList<String> lst = new ArrayList<String>();
-        /*
-        lst.add("1");
-        lst.add("3");
-        lst.add("5");
-        lst.add("7");
-        lst.add("9");
-        lst.add("11");
-        lst.add(null);
-        */
+
         KeyPair agent1Keypair       = Keys.keyPairFor(SignatureAlgorithm.RS256);
 
         lst.add("PKey---"+KeyEncDec.stringEncodedKey(agent1Keypair.getPublic()));

@@ -2,9 +2,11 @@ package Library;
 
 
 import java.security.*;
+import java.sql.*;
 import java.util.Base64;
 import java.util.Date;
 
+import Database.DB;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -22,6 +24,8 @@ public class Main {
         KeyPair agent1Keypair       = Keys.keyPairFor(SignatureAlgorithm.RS256);
         KeyPair agent2Keypair       = Keys.keyPairFor(SignatureAlgorithm.RS256);
 
+        DB.createTable();
+        //DB.Connect();
         /** Principal */
         //principal generates a PoA and "sends" it to agent1
         PoA principalPoa = PoAGen
@@ -110,7 +114,6 @@ public class Main {
         //signing the reconstructed PoA to enable comparison
         String reconPoAToken = reconstructedPoA.exportJWT(principalKeypair.getPrivate());
         System.out.println("Reconstruct example: " + reconPoAToken.equals(token));
-
 
     }
 
