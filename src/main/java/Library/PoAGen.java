@@ -33,7 +33,7 @@ public class PoAGen {
     public static PoA generateDefault(){
         return new PoA();
     }
-
+// reconstruct() method takes in two parameters, token and key
     public static PoA reconstruct(String token, Key key){
         Claims body = PoAValid.decodeJWT(token,key).getBody();
         //Precession loss on the New Dates due to the way JWT stores the dates in the token body
