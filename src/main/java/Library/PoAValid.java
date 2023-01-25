@@ -9,15 +9,21 @@ import java.security.Key;
 
 import static io.jsonwebtoken.Jwts.parserBuilder;
 
+// The code is trying to decode a JWT token
 public class PoAValid {
-
+// The code start by creating a parser builder and sets the signing key as pubklicKey
+// Then it builds the decoded claims jwt, which is then parsed with parseClaimsJws()
     public static Jws<Claims> decodeJWT(String token, Key publicKey){
         try {
+            // if there are no errors in parsing the token, then this function returns
+            // decoded Claims object that was created from decoding the JWT token
             Jws<Claims> decoded = parserBuilder().setSigningKey(publicKey).build().parseClaimsJws(token);
             return decoded;
         }catch (SignatureException e){
+            // if there is an error parsing the token, such as if it's expired
+            // or invalid, then this Error gets thrown
             throw new Error("Invalid");
-            //this Error gets thrown whenever the token/key pair is un able to be verified
+            //this Error gets thrown whenever the token/key pair is unable to be verified
         }catch (ExpiredJwtException e){
             throw new Error("Expired token");
         }
