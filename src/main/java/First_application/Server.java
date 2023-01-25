@@ -1,4 +1,4 @@
-package Aplication;
+package First_application;
 
 import java.io.*;
 import java.net.*;
@@ -72,10 +72,10 @@ class Server{
                     break;
             }
             /**
-            // send to client
-            ps.println(lst.get(i));
-            System.out.println("Skickar till client: " + lst.get(i));
-            i++;*/
+             // send to client
+             ps.println(lst.get(i));
+             System.out.println("Skickar till client: " + lst.get(i));
+             i++;*/
         }
 
         // close connection
