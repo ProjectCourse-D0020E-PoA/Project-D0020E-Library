@@ -28,21 +28,33 @@ public class PoAValid {
             throw new Error("Expired token");
         }
     }
-
+// Code is trying to validate a JWT token
+    // starts by creating a parser builder and setting the signing key for it
+    // then, the code parses claims from the token using this parser builder
     public static boolean validate(String token, Key publicKey){
         try {
+            // if there is an error parsing the claims, then true will be returned as false otherwise
+            // true will be returned
             parserBuilder().setSigningKey(publicKey).build().parseClaimsJws(token);
             return true;
         }catch (SignatureException e){
             return false;
         }
         //add handling in the case of an expired token
+        // the code above does the following, 
+        // parses the token using parser builder with the public key as its signing key
+        // if validation fails, returns false
     }
-    
+    // The code is trying to validate JWT token
+    // the code starts by decoding the toke nadn then getting the decoded JWT
     public static boolean validateRecursively(String token, Key publicKey){
         try {
             Claims decoded = decodeJWT(token,publicKey).getBody();
             String metaDat = decoded.get("path").toString();
+            // if there's metadata, it will split up the string into array of strings and then check
+            // each one for the "path"
+            // if path exists in any of them, it will call validateRecursively on that value
+            // with KeyEncDecodeKeyBytesPublic as its key
             if (metaDat.equals("path")){
                 String[] metaData = decoded.get("metaData").toString().split("-----");
                 return validateRecursively(metaData[0],KeyEncDec.decodeKeyBytesPublic(metaData[1]));
@@ -50,8 +62,11 @@ public class PoAValid {
             else{
                 return validate(token,publicKey);
             }
+             // if there is no metadata, it will return false
         }catch (Error e){
             return false;
+            
+            // the code is trying to validate the token and public key in a recursive manner
         }
     }
 }
