@@ -4,6 +4,7 @@ import java.security.Key;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 
@@ -30,7 +31,22 @@ public class KeyEncDec {
     }
     // The method takes in a key object and returns a string. 
     // The key is encoded using the Base64 class and then converted to a string.
-    public static String stringEncodedKey(Key publicKey){
-        return Base64.getEncoder().encodeToString(publicKey.getEncoded());
+    public static String stringEncodedKey(Key key){
+        return Base64.getEncoder().encodeToString(key.getEncoded());
     }
+
+        public static Key decodeKeyBytesPrivate(String encodedPrivateKey){
+            byte[] keyBytes = Base64.getDecoder().decode(encodedPrivateKey);
+            try {
+                // The next step is to create an instance of KeyFactory using "RSA" as its algorithm name.
+                final KeyFactory fact = KeyFactory.getInstance("RSA");
+                // Then it creates an X509EncodedKeySpec object with the bytes contained
+                // in the byte array returned by decodeKeyBytesPrivate() as its input parameter.
+                final PKCS8EncodedKeySpec privateKeySpec = new PKCS8EncodedKeySpec(keyBytes);
+                return fact.generatePrivate(privateKeySpec);
+            } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+                e.printStackTrace();
+                throw new Error("Failed to read PoaOnboarding private key");
+            }
+        }
 }
