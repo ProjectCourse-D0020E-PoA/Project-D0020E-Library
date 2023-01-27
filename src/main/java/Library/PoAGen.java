@@ -4,6 +4,9 @@ import io.jsonwebtoken.Claims;
 import java.security.Key;
 import java.util.Date;
 
+// Code starts by declaring the variables and constants used in this class, then it delcares the
+// constructor for this class. next it creates an instance of the class with these parameters
+
 public class PoAGen {
 
     public static PoA generate(
