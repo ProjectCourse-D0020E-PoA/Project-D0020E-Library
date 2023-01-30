@@ -11,18 +11,26 @@ import com.sun.security.ntlm.Server;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
+import java.security.Key;
+import java.security.KeyFactory;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
+import java.util.Base64;
+
 public class Communications{
     /*
      * Open communication between two IP adresses
      * Creates thread for each recieved message and closes it once the respons is sent
      * */
-    public String receiveCom(String ip, int socketNumber)
+    public String receiveCom(int socketNumber)
     {
 
         // Create client socket
         String str = "";
         try {
-            Socket s = new ServerSocket(888).accept();
+            Socket s = new ServerSocket(socketNumber).accept();
 
         // to read data coming from the server
         BufferedReader dataIn
@@ -41,7 +49,12 @@ public class Communications{
 
     }
 
-    public void transmitCom(PoA poa, String ip, String publicKey, int portNumber){
+    public void transmitCom(String jwt, String ip, int portNumber){
+
+
+
+
+
         try {
             Socket s = new Socket(ip, portNumber);
 
@@ -49,9 +62,8 @@ public class Communications{
             DataOutputStream dataOut
                     = new DataOutputStream(
                     s.getOutputStream());
-            dataOut.writeBytes("peepeepoopoo");
 
-
+            dataOut.writeBytes("NaNaNa med movitz");
             dataOut.close();
             s.close();
         }catch (Exception e){
