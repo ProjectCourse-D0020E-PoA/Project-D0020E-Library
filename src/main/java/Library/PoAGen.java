@@ -76,12 +76,14 @@ public class PoAGen {
         // left to be transferred. if so, it subtracts 1 from the trnaferable property 
         // and sets the path for this transaction to include "----" + KeyEncDec.stringEncodedKey(PublicKeySource
         // this will make sure that this transaction can only be used once before being invalidated
-        // the code attempts to transfer the token to the public key soruce PublicKeySource
+        // the code will set the retransmiters public key in metadata to enable recursive validation
         if(poa.getTransferable() != 0){
             poa.setTransferable(poa.getTransferable() - 1);
 
             //maby replade this usage of metadata with its own variable in the poa object
             poa.setPath(token + "-----" + KeyEncDec.stringEncodedKey(PublicKeySource));
+        }else{
+            //throw some error (eg transferable == 0)
         }
         return poa;
         
