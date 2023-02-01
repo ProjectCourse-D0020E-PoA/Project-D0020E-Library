@@ -38,7 +38,7 @@ public class Main{
                                  "localhost",
                                  agent1Keypair);
         try {
-            agent1.start(principalKeypair.getPublic());
+            agent1.start();
         }catch (Exception e){
             System.out.print("Bingo Bango bongo det funka inte" + e);
             System.exit(0);
@@ -54,7 +54,7 @@ public class Main{
                             "agent1",
                             date,
                             metadata);
-        //agent1.recivePoA(888, principalKeypair.getPublic());
+        agent1.recivePoA(888, principalKeypair.getPublic());
         principal.sendPoA(poa, "localhost", agent1Keypair.getPublic(), 888);
         System.out.print("eyy yo det kanske funnkar");
     }
@@ -62,6 +62,4 @@ public class Main{
     private static long Days(int i) {
         return i * 86400000;
     }
-
-
 }

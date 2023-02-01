@@ -86,8 +86,8 @@ public class Agent  extends Thread{
         return PoAValid.validate(token, key);
     }
 
-    public void run(Key principalPublicKey){
-        recivePoA(888, principalPublicKey);
+    public void run(){
+
     }
 }
 
