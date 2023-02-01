@@ -29,6 +29,16 @@ public class DB {
     return conn;
     }
 
+    /**Creates a table in the database with the columns
+     *
+     * @apiNote Name      String,
+     *          Priv_key  String,
+     *          Pub_key   String,
+     *          ip        String,
+     *          port      Int
+     *
+     */
+
     public static void createTable() {
 
         Connection c = DB.Connect();
@@ -36,7 +46,7 @@ public class DB {
                 "  Name VARCHAR(20) NOT NULL,\n" +
                 "  Priv_key VARCHAR(1024) NOT NULL,\n" +
                 "  Pub_key VARCHAR(1024) NOT NULL,\n" +
-                "  ip BINARY(32) NOT NULL,\n" +
+                "  ip VARCHAR(32) NOT NULL,\n" +
                 "  port INT(11) UNSIGNED NOT NULL\n" +
                 ")\n";
         System.out.println(sql);

@@ -4,16 +4,24 @@ package Library;
 import java.security.*;
 import java.util.Date;
 
+import Database.Insert;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
+import static Database.Insert.*;
 import static Library.PoAValid.*;
 
 public class Main {
 
     public static void main(String[] args){
+
+        Insert.InsertNew("Agent0","privateKey","publicKey","ip",5);
+        Insert.InsertNew("Agent1","privateKey","publicKey","ip",25);
+        Insert.InsertNew("Agent2","privateKey","publicKey","ip",125);
+        Insert.InsertNew("Agent3","privateKey","publicKey","ip",625);
+        Insert.InsertNew("Agent4","privateKey","publicKey","ip",3125);
 
         //3 pairs of keys to represent the 3 parts
         //this is based on the assumption everyone knows everyone's public keys and private keys are only known to yourself
