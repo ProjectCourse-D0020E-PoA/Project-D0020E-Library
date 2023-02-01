@@ -8,6 +8,8 @@ import java.sql.Statement;
 
 public class DB {
 
+    public static String table = "key_db.keys";
+
     public static Connection Connect(){
     Connection conn = null;
         try {
@@ -27,10 +29,10 @@ public class DB {
     return conn;
     }
 
-    public static void createTable(){
+    public static void createTable() {
 
         Connection c = DB.Connect();
-        String sql = "CREATE TABLE IF NOT EXISTS key_db.keys(\n" +
+        String sql = "CREATE TABLE IF NOT EXISTS " + table + "(\n" +
                 "  Name VARCHAR(20) NOT NULL,\n" +
                 "  Priv_key VARCHAR(1024) NOT NULL,\n" +
                 "  Pub_key VARCHAR(1024) NOT NULL,\n" +
@@ -47,7 +49,6 @@ public class DB {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
 
     }
 
