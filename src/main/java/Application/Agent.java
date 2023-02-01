@@ -2,18 +2,15 @@ package Application;
 
 import java.io.*;
 import java.net.*;
-import java.security.Key;
-import java.security.KeyPair;
+import java.security.*;
 import java.util.ArrayList;
 import java.util.Date;
 
 import Library.*;
-import com.sun.security.ntlm.Server;
+//import com.sun.security.ntlm.Server;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import java.security.Key;
-import java.security.KeyFactory;
-import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
@@ -23,7 +20,7 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
-public class Agent {
+public class Agent  extends Thread{
     private final String agentName;
     private final int agentID;
     private final String agentIP;
@@ -56,19 +53,6 @@ public class Agent {
         return poa;
     };
 
-
-    // Send to recipient &  Pass on to next agent (if transferable) & Send NEW PoA with requested time from agent
-    public void sendPoA(PoA poa,
-                        String ip,
-                        Key publicKey,
-                        int portNumber){
-
-
-        String jwt = poa.exportJWT(agentKeyPair.getPrivate());
-
-        this.com.transmitCom(jwt, ip, portNumber);
-    };
-
     public PoA recivePoA(int socketNumber, Key principalPublicKey){   // ? är det så här vi skickar med public keys?
         String message = this.com.receiveCom(socketNumber);
         //validatePoA(message, principalPublicKey); //Behövs nog inte om vi ska skicka vidare
@@ -82,6 +66,18 @@ public class Agent {
 
     }
 
+    // Send to recipient &  Pass on to next agent (if transferable) & Send NEW PoA with requested time from agent
+    public void sendPoA(PoA poa,
+                        String ip,
+                        Key publicKey,
+                        int portNumber){
+
+
+        String jwt = poa.exportJWT(agentKeyPair.getPrivate());
+
+        this.com.transmitCom(jwt, ip, portNumber);
+    };
+
     public void requestNewTime(String PrincipalKey, String principalIP, Date newExpiredAt){
         // save this for later when we know more
     };
@@ -90,4 +86,8 @@ public class Agent {
         return PoAValid.validate(token, key);
     }
 
+    public void run(Key principalPublicKey){
+        recivePoA(888, principalPublicKey);
+    }
 }
+
