@@ -53,18 +53,44 @@ public class Setters {
             String Pub_key){
 
         String sql = "UPDATE " + DB.table
-                   + " set Priv_key = ? AND Pub_key = ?"
+                   + " SET Priv_key = ?, Pub_key = ?"
                    + " WHERE Name = ?";
 
         try {
             Connection c = DB.Connect();
             PreparedStatement stmt = c.prepareStatement(sql);
 
-            stmt.setString(1,Name);
-            stmt.setString(2,Priv_key);
-            stmt.setString(3,Pub_key);
+            stmt.setString(1,Priv_key);
+            stmt.setString(2,Pub_key);
+            stmt.setString(3,Name);
 
-            stmt.execute();
+            stmt.executeUpdate();
+            stmt.close();
+            c.close();
+
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+    public static void UpdateIP(
+            String Name,
+            String ip,
+            String port){
+
+        String sql = "UPDATE " + DB.table
+                + " SET ip = ?, port = ?"
+                + " WHERE Name = ?";
+
+        try {
+            Connection c = DB.Connect();
+            PreparedStatement stmt = c.prepareStatement(sql);
+
+            stmt.setString(1,ip);
+            stmt.setString(2,port);
+            stmt.setString(3,Name);
+
+            stmt.executeUpdate();
             stmt.close();
             c.close();
 

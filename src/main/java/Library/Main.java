@@ -5,6 +5,7 @@ import java.security.*;
 import java.util.Date;
 
 import Database.DB;
+import Database.Getters;
 import Database.Setters;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -16,12 +17,6 @@ import static Library.PoAValid.*;
 public class Main {
 
     public static void main(String[] args){
-        DB.createTable();
-        Setters.InsertNew("Agent0","privateKey","publicKey","ip",5);
-        Setters.InsertNew("Agent1","privateKey","publicKey","ip",25);
-        Setters.InsertNew("Agent2","privateKey","publicKey","ip",125);
-        Setters.InsertNew("Agent3","privateKey","publicKey","ip",625);
-        Setters.InsertNew("Agent4","privateKey","publicKey","ip",3125);
 
         //3 pairs of keys to represent the 3 parts
         //this is based on the assumption everyone knows everyone's public keys and private keys are only known to yourself
@@ -31,11 +26,25 @@ public class Main {
 
         String encPrivKey = Library.KeyEncDec.stringEncodedKey(principalKeypair.getPrivate());
         PrivateKey decPrivKey = (PrivateKey) Library.KeyEncDec.decodeKeyBytesPrivate(encPrivKey);
-
         System.out.println(decPrivKey.equals(principalKeypair.getPrivate()));
 
+        DB.createTable();
 
+        Setters.InsertNew("Agent0","privateKey","publicKey","ip",5);
+        Setters.InsertNew("Agent1","privateKey","publicKey","ip",25);
+        Setters.InsertNew("Agent2","privateKey","publicKey","ip",125);
+        Setters.InsertNew("Agent3","privateKey","publicKey","ip",625);
+        Setters.InsertNew("Agent4","privateKey","publicKey","ip",3125);
 
+        Setters.UpdateKeys(
+                "Agent0",
+                Library.KeyEncDec.stringEncodedKey(principalKeypair.getPrivate()),
+                Library.KeyEncDec.stringEncodedKey(principalKeypair.getPublic()));
+
+        Getters.getPub("Agent0");
+        Getters.getPriv("Agent0");
+
+        Setters.UpdateIP("Agent0","0.0.0.bob","5555");
 
         //DB.createTable();
         //DB.Connect();

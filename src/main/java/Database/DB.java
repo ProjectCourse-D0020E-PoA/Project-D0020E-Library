@@ -56,8 +56,8 @@ public class DB {
 
         String sql = "CREATE TABLE IF NOT EXISTS " + table + "(\n" +
                 "  Name VARCHAR(20) NOT NULL,\n" +
-                "  Priv_key VARCHAR(1024) NOT NULL,\n" +
-                "  Pub_key VARCHAR(1024) NOT NULL,\n" +
+                "  Priv_key TEXT NOT NULL,\n" +
+                "  Pub_key TEXT NOT NULL,\n" +
                 "  ip VARCHAR(32) NOT NULL,\n" +
                 "  port INT(11) UNSIGNED NOT NULL,\n" +
                 "  PRIMARY KEY(`Name`(20)))\n";
