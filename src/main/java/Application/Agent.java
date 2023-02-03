@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import Library.*;
-//import com.sun.security.ntlm.Server;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import java.security.Key;
@@ -25,18 +24,20 @@ public class Agent  extends Thread{
     private final int agentID;
     private final String agentIP;
     private final KeyPair agentKeyPair;
+    private final KeyPair nextAgentKeyPair;
     private Communications com;
 
     public Agent(String agentName,
                  int agentID,
                  String agentIP,
-                 KeyPair agentKeyPair){
+                 KeyPair agentKeyPair, KeyPair nextAgentKeyPair){
 
         this.agentName = agentName;
         this.agentID = agentID;
         this.agentIP = agentIP;
         this.agentKeyPair = agentKeyPair;
-        this.com = new Communications(); // Malkolm idé om ip och port grejs
+        this.nextAgentKeyPair = nextAgentKeyPair;
+        this.com = new Communications();
     }
 
     // Set values of PoA (Transferable, public key, time, etc) & Send NEW PoA with requested time from agent
@@ -61,7 +62,7 @@ public class Agent  extends Thread{
         if(poa.getTransferable() > 0){
             poa.setTransferable(poa.getTransferable()-1);
         }
-
+        System.out.print(validatePoA(message, principalPublicKey));
         return(poa);
 
     }
@@ -87,7 +88,7 @@ public class Agent  extends Thread{
     }
 
     public void run(){
-
+        recivePoA(888, nextAgentKeyPair.getPublic());
     }
 }
 

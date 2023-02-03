@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import Library.*;
-//import com.sun.security.ntlm.Server;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import java.security.Key;
@@ -36,15 +35,15 @@ public class Communications{
         // Create client socket
         String message = "";
         try {
-            System.out.print("Nu börjar vi lyssna efter en kommunikation");
             Socket s = new ServerSocket(socketNumber).accept();
-
+            System.out.println("Connection connected\n");
         // to read data coming from the server
         BufferedReader dataIn
                 = new BufferedReader(
                 new InputStreamReader(
                         s.getInputStream()));
         message = dataIn.readLine();
+        System.out.println("Message recived\n");
         dataIn.close();
         s.close();
 
@@ -61,7 +60,7 @@ public class Communications{
 
 
         try {
-            System.out.print("Nu försöker vi fixa en kommunikation");
+            System.out.println("Nu försöker vi fixa en kommunikation\n");
             Socket s = new Socket(ip, portNumber);
 
             // to send data to agent

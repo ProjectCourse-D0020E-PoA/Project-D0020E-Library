@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import Library.*;
-//import com.sun.security.ntlm.Server;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import java.security.Key;
@@ -32,15 +31,15 @@ public class Main{
         Agent principal = new Agent("principal",
                                     0,
                                     "localhost",
-                                    principalKeypair);
+                                    principalKeypair, agent1Keypair);
         Agent agent1 = new Agent("agent1",
                                  1,
                                  "localhost",
-                                 agent1Keypair);
+                                 agent1Keypair, principalKeypair); //Sending the same keypair because there is no more transaction
         try {
             agent1.start();
         }catch (Exception e){
-            System.out.print("Bingo Bango bongo det funka inte" + e);
+            System.out.println("Bingo Bango bongo det funka inte" + e);
             System.exit(0);
         }
         String[] metadata = {};
@@ -54,9 +53,9 @@ public class Main{
                             "agent1",
                             date,
                             metadata);
-        agent1.recivePoA(888, principalKeypair.getPublic());
+        //agent1.recivePoA(888, principalKeypair.getPublic());
         principal.sendPoA(poa, "localhost", agent1Keypair.getPublic(), 888);
-        System.out.print("eyy yo det kanske funnkar");
+        System.out.println("eyy yo det kanske funnkar\n");
     }
 
     private static long Days(int i) {
