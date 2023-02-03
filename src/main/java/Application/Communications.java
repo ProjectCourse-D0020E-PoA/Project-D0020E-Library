@@ -62,7 +62,7 @@ public class Communications{
         try {
             System.out.println("Nu försöker vi fixa en kommunikation\n");
             Socket s = new Socket(ip, portNumber);
-
+            System.out.println("Kommunikation fixad\n");
             // to send data to agent
             DataOutputStream dataOut
                     = new DataOutputStream(

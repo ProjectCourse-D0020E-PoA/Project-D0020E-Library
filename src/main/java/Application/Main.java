@@ -35,7 +35,7 @@ public class Main{
         Agent agent1 = new Agent("agent1",
                                  1,
                                  "localhost",
-                                 agent1Keypair, principalKeypair); //Sending the same keypair because there is no more transaction
+                                 agent1Keypair, principalKeypair);  //Sending the same keypair because there is no more transaction
         try {
             agent1.start();
         }catch (Exception e){
@@ -53,7 +53,6 @@ public class Main{
                             "agent1",
                             date,
                             metadata);
-        //agent1.recivePoA(888, principalKeypair.getPublic());
         principal.sendPoA(poa, "localhost", agent1Keypair.getPublic(), 888);
         System.out.println("eyy yo det kanske funnkar\n");
     }
