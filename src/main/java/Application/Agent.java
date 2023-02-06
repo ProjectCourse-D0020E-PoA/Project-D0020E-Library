@@ -1,23 +1,10 @@
 package Application;
 
-import java.io.*;
-import java.net.*;
 import java.security.*;
-import java.util.ArrayList;
 import java.util.Date;
-
 import Library.*;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
 import java.security.Key;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.PKCS8EncodedKeySpec;
-import java.security.spec.X509EncodedKeySpec;
-import java.util.Base64;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
+
 
 public class Agent  extends Thread{
     private final String agentName;
@@ -30,7 +17,8 @@ public class Agent  extends Thread{
     public Agent(String agentName,
                  int agentID,
                  String agentIP,
-                 KeyPair agentKeyPair, KeyPair nextAgentKeyPair){
+                 KeyPair agentKeyPair,
+                 KeyPair nextAgentKeyPair){
 
         this.agentName = agentName;
         this.agentID = agentID;
@@ -40,7 +28,7 @@ public class Agent  extends Thread{
         this.com = new Communications();
     }
 
-    // Set values of PoA (Transferable, public key, time, etc) & Send NEW PoA with requested time from agent
+    // Generate and set the values of the requested PoA
     public PoA setValues(int recourceOwnerID,
                          int transferable,
                          String pricipalPublicKey,
@@ -54,41 +42,41 @@ public class Agent  extends Thread{
         return poa;
     };
 
-    public PoA recivePoA(int socketNumber, Key principalPublicKey){   // ? är det så här vi skickar med public keys?
+    // Receive a poa, reconstruct to be able to send it again, decrement transferable and validate
+    public PoA recivePoA(int socketNumber, Key principalPublicKey){
         String message = this.com.receiveCom(socketNumber);
-        //validatePoA(message, principalPublicKey); //Behövs nog inte om vi ska skicka vidare
         PoA poa = PoAGen.reconstruct(message,principalPublicKey);
 
         if(poa.getTransferable() > 0){
             poa.setTransferable(poa.getTransferable()-1);
         }
-        System.out.print(validatePoA(message, principalPublicKey));
+        System.out.println( "Result from agent validating the PoA:\n" + validatePoA(message, principalPublicKey));
         return(poa);
-
     }
 
-    // Send to recipient &  Pass on to next agent (if transferable) & Send NEW PoA with requested time from agent
+    // Send to recipient
     public void sendPoA(PoA poa,
                         String ip,
                         Key publicKey,
                         int portNumber){
 
-
+        // Converts the PoA to a JasonWebToken
         String jwt = poa.exportJWT(agentKeyPair.getPrivate());
-
+        // Sends the token to the destination specified by ip and portnumber
         this.com.transmitCom(jwt, ip, portNumber);
     };
 
-    public void requestNewTime(String PrincipalKey, String principalIP, Date newExpiredAt){
-        // save this for later when we know more
-    };
-
+    // Uses the validate method from the library for the PoA
     public boolean validatePoA(String token, Key key){
         return PoAValid.validate(token, key);
     }
 
+    // When main runs .start on an object, this function is invoked
     public void run(){
         recivePoA(888, nextAgentKeyPair.getPublic());
     }
+
+    // Should be implemented later to enable the end-of-the-line-agent to request a new expiration date for the PoA
+    public void requestNewTime(String PrincipalKey, String principalIP, Date newExpiredAt){ };
 }
 
