@@ -7,12 +7,28 @@ import java.util.Date;
 // Code starts by declaring the variables and constants used in this class, then it delcares the
 // constructor for this class. next it creates an instance of the class with these parameters
 
+/**
+ * The intended interface for library users to access creating PoAs.
+ */
 public class PoAGen {
 
+    /**
+     * Passes the parameters to the PoA class.
+     * @implNote This roundabout implementation is due to the PoA class having constructors not intended for direct access.
+     *
+     * @param resourceOwnerID
+     * @param transferable
+     * @param principalPublicKey
+     * @param principalName
+     * @param agentKey Agents public key
+     * @param agentName
+     * @param expiredAt
+     * @param metaData Gets convetred to string for the JWT
+     */
     public static PoA generate(
-            int recourceOwnerID,
+            int resourceOwnerID,
             int transferable,
-            String pricipalPublicKey,
+            String principalPublicKey,
             String principalName,
             String agentKey,
             String agentName,
@@ -20,9 +36,9 @@ public class PoAGen {
             String[] metaData){
 
             return new PoA(
-                    recourceOwnerID,
+                    resourceOwnerID,
                     transferable,
-                    pricipalPublicKey,
+                    principalPublicKey,
                     principalName,
                     agentKey,
                     agentName,
@@ -31,7 +47,7 @@ public class PoAGen {
     }
 
     /**
-     * @return returns a PoA object setup with default values that's valid for a week from time of creation
+     * @return Returns a PoA object setup with default values that's valid for a week from time of creation
      */
     
     // The code is a class that generates a new PoA
@@ -44,6 +60,16 @@ public class PoAGen {
     // reconstruct() method takes in two parameters, token and key
     // It decodes the JWT from the token to get the body of claims, then gets the 
     // resourceOwnerID, transferable, principalPublickey, principalName, agentKey and iat from it
+
+    /**
+     * Reconstructs a PoA from the information stored within the JWT,
+     * this should result in an identical PoA object to the one that was encoded.
+     *
+     * @param token JWT
+     * @param key Issuers public key
+     *
+     * @return PoA reconstructed
+     */
     public static PoA reconstruct(String token, Key key){
         Claims body = PoAValid.decodeJWT(token,key).getBody();
         
@@ -69,6 +95,14 @@ public class PoAGen {
     
        // The code starts by creating a new PoA object
        // the constructor of the PoA class takes two arguments, a string token and an instance of Key PublicKeySource
+
+    /**
+     * Creates a modified PoA with added path information to enable recursive validation of the PoAs path
+     *
+     * @param token PoA in JWT format
+     * @param PublicKeySource PublicKey of the device that sent you the PoA
+     * @return Modified PoA with a reduced transferability
+     */
     public static PoA transfer(String token, Key PublicKeySource){
         PoA poa = reconstruct(token,PublicKeySource);
         

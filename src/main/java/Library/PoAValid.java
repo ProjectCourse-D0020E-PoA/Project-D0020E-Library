@@ -13,6 +13,14 @@ import static io.jsonwebtoken.Jwts.parserBuilder;
 public class PoAValid {
 // The code start by creating a parser builder and sets the signing key as pubklicKey
 // Then it builds the decoded claims jwt, which is then parsed with parseClaimsJws()
+
+    /**
+     *
+     * @param token JWT
+     * @param publicKey PublicKey of the PoA issuer
+     * @return Jws<Claims> that can be used to access the stored data within the token
+     * @throws Error Invalid & Expired token
+     */
     public static Jws<Claims> decodeJWT(String token, Key publicKey){
         try {
             // if there are no errors in parsing the token, then this function returns
@@ -31,6 +39,16 @@ public class PoAValid {
 // Code is trying to validate a JWT token
     // starts by creating a parser builder and setting the signing key for it
     // then, the code parses claims from the token using this parser builder
+
+
+    // ######## Might need to rework this one if it incorrectly validates transferred PoAs #######
+    /**
+     * Attempts to parse the token using the Key,
+     * if the key is wrong or the token has been modified this will false otherwise true.
+     * @param token JWT
+     * @param publicKey PublicKey of the PoA issuer
+     * @return
+     */
     public static boolean validate(String token, Key publicKey){
         try {
             // if there is an error parsing the claims, then true will be returned as false otherwise
@@ -47,6 +65,15 @@ public class PoAValid {
     }
     // The code is trying to validate JWT token
     // the code starts by decoding the toke nadn then getting the decoded JWT
+    /**
+     * Attempts to parse the token using the Key,
+     * if the key is wrong or the token has been modified this will false otherwise true.
+     *<p></p>
+     * This method will also check the Poa path and validate each step
+     * @param token JWT
+     * @param publicKey PublicKey of the PoA issuer
+     * @return
+     */
     public static boolean validateRecursively(String token, Key publicKey){
         try {
             Claims decoded = decodeJWT(token,publicKey).getBody();

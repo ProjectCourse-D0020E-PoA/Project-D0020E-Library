@@ -8,6 +8,7 @@ import java.util.Date;
 
 public class PoA {
 
+    //sets default values
     private int resourceOwnerID = 0;
     private int transferable = 0;
     private String principalPublicKey = "default";
@@ -17,18 +18,21 @@ public class PoA {
     private String signingAlogrithm = "RS256";
     private Date issuedAt;
     private Date expiredAt;
+    private String path = "";
+    private String metaData = "default";
 
     public String getPath() {
         return path;
+    }
+
+    public int getTransferable() {
+        return transferable;
     }
 
     public PoA setPath(String path) {
         this.path = path;
         return this;
     }
-
-    private String path = "";
-    private String metaData = "default";
 
     public PoA setResourceOwnerID(int resourceOwnerID) {
         this.resourceOwnerID = resourceOwnerID;
@@ -58,12 +62,7 @@ public class PoA {
         this.agentName = agentName;
         return this;
     }
-    /*
-    public PoA setSigningAlogrithm(String signingAlogrithm) {
-        this.signingAlogrithm = signingAlogrithm;
-        return this;
-    }
-    */
+
     public PoA setExpiredAt(Date expiredAt) {
         this.expiredAt = expiredAt;
         return this;
@@ -79,13 +78,17 @@ public class PoA {
     }
 
     /**
+     * PoA constructor that takes params for all required variables.
+     * Intended for use within the package
+     *
      * @param resourceOwnerID
      * @param transferable
      * @param principalPublicKey
      * @param principalName
-     * @param agentKey
+     * @param agentKey Agents public key
+     * @param agentName
      * @param expiredAt
-     * @param metaData
+     * @param metaData Gets convetred to string for the JWT
      */
     protected PoA(
             int recourceOwnerID,
@@ -108,11 +111,20 @@ public class PoA {
         this.expiredAt = expiredAt;
         this.metaData = Arrays.toString(metaData);
     }
-
-    public int getTransferable() {
-        return transferable;
-    }
-
+    /**
+     * PoA constructor that takes params for all required variables
+     * Intended for use within the package, when transfering a PoA and reconstructing.
+     *
+     * @param resourceOwnerID
+     * @param transferable
+     * @param principalPublicKey
+     * @param principalName
+     * @param agentKey Agents public key
+     * @param agentName
+     * @param issuedAt
+     * @param expiredAt
+     * @param metaData Gets convetred to string for the JWT
+     */
     protected PoA(
             int recourceOwnerID,
             int transferable,
@@ -133,10 +145,16 @@ public class PoA {
         this.metaData = metaData;
     }
 
+    /**
+     * Creates a barebones PoA with only
+     * The timestamps
+     * where expiredAt is set to a default of 7 days
+     */
     protected PoA(){
         this.issuedAt = new Date();
         this.expiredAt = new Date(System.currentTimeMillis()+604800000);
     };
+
     /**
      * @param privateKey (RS256 compatible)
      * @return String containing JWT with added claims for all the PoAs stored information.
