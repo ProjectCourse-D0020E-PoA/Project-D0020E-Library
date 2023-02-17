@@ -84,7 +84,7 @@ public class PoAValid {
             // with KeyEncDecodeKeyBytesPublic as its key
             if (metaDat.equals("path")){
                 String[] metaData = decoded.get("metaData").toString().split("-----");
-                return validateRecursively(metaData[0],KeyEncDec.decodeKeyBytesPublic(metaData[1]));
+                return validateRecursively(metaData[0], KeyEncodeDecode.decodeKeyBytesPublic(metaData[1]));
             }
             else{
                 return validate(token,publicKey);

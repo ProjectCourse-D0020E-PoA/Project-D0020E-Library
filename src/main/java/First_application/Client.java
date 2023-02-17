@@ -39,7 +39,7 @@ class Client{
 
         KeyPair agent1Keypair       = Keys.keyPairFor(SignatureAlgorithm.RS256);
 
-        lst.add("PKey---"+KeyEncDec.stringEncodedKey(agent1Keypair.getPublic()));
+        lst.add("PKey---"+ KeyEncodeDecode.stringEncodedKey(agent1Keypair.getPublic()));
         lst.add("PoAR");
 
         Key principlePubKey = null;
@@ -59,7 +59,7 @@ class Client{
             String[] varibabel = str.split("---");
             switch(varibabel[0]){
                 case "PoA-Pkey":
-                    principlePubKey = KeyEncDec.decodeKeyBytesPublic(varibabel[2]);
+                    principlePubKey = KeyEncodeDecode.decodeKeyBytesPublic(varibabel[2]);
                     PoA poa = PoAGen.reconstruct(varibabel[1], principlePubKey);
                     System.out.println("valid?:" + PoAValid.validate(varibabel[1],principlePubKey));
                     break;

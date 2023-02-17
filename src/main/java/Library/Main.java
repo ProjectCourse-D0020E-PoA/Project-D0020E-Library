@@ -24,22 +24,23 @@ public class Main {
         KeyPair agent1Keypair       = Keys.keyPairFor(SignatureAlgorithm.RS256);
         KeyPair agent2Keypair       = Keys.keyPairFor(SignatureAlgorithm.RS256);
 
-        String encPrivKey = Library.KeyEncDec.stringEncodedKey(principalKeypair.getPrivate());
-        PrivateKey decPrivKey = (PrivateKey) Library.KeyEncDec.decodeKeyBytesPrivate(encPrivKey);
+        String encPrivKey = KeyEncodeDecode.stringEncodedKey(principalKeypair.getPrivate());
+        PrivateKey decPrivKey = (PrivateKey) KeyEncodeDecode.decodeKeyBytesPrivate(encPrivKey);
         System.out.println(decPrivKey.equals(principalKeypair.getPrivate()));
 
         DB.createTable();
 
-        Setters.InsertNew("Agent0","privateKey","publicKey","ip",5);
-        Setters.InsertNew("Agent1","privateKey","publicKey","ip",25);
-        Setters.InsertNew("Agent2","privateKey","publicKey","ip",125);
-        Setters.InsertNew("Agent3","privateKey","publicKey","ip",625);
-        Setters.InsertNew("Agent4","privateKey","publicKey","ip",3125);
+
+        //Setters.InsertNew("Agent0","privateKey","publicKey","ip",5);
+        //Setters.InsertNew("Agent1","privateKey","publicKey","ip",25);
+        //Setters.InsertNew("Agent2","privateKey","publicKey","ip",125);
+        //Setters.InsertNew("Agent3","privateKey","publicKey","ip",625);
+        //Setters.InsertNew("Agent4","privateKey","publicKey","ip",3125);
 
         Setters.UpdateKeys(
                 "Agent0",
-                Library.KeyEncDec.stringEncodedKey(principalKeypair.getPrivate()),
-                Library.KeyEncDec.stringEncodedKey(principalKeypair.getPublic()));
+                KeyEncodeDecode.stringEncodedKey(principalKeypair.getPrivate()),
+                KeyEncodeDecode.stringEncodedKey(principalKeypair.getPublic()));
 
         Getters.getPub("Agent0");
         Getters.getPriv("Agent0");
@@ -53,9 +54,9 @@ public class Main {
         PoA principalPoa = PoAGen
                 .generateDefault()
                 .setTransferable(1)
-                .setPrincipalPublicKey(KeyEncDec.stringEncodedKey(principalKeypair.getPublic()))
+                .setPrincipalPublicKey(KeyEncodeDecode.stringEncodedKey(principalKeypair.getPublic()))
                 .setPrincipalName("bob")
-                .setAgentPublicKey(KeyEncDec.stringEncodedKey(agent1Keypair.getPublic()))
+                .setAgentPublicKey(KeyEncodeDecode.stringEncodedKey(agent1Keypair.getPublic()))
                 .setAgentName("agent1");
         String transmitToken = principalPoa.exportJWT(principalKeypair.getPrivate());
 
@@ -66,7 +67,7 @@ public class Main {
         PoA principalPoaEncapsulated = PoAGen.transfer(recivedToken,principalKeypair.getPublic());
         principalPoaEncapsulated
                 .setAgentName("agent2")
-                .setAgentPublicKey(KeyEncDec.stringEncodedKey(agent2Keypair.getPublic()));
+                .setAgentPublicKey(KeyEncodeDecode.stringEncodedKey(agent2Keypair.getPublic()));
         String transmitToken2 = principalPoaEncapsulated.exportJWT(agent1Keypair.getPrivate()); //agent 1 signs using their own key so that the chain of the Poa is verifiable
 
 

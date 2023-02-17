@@ -1,5 +1,8 @@
 package Database;
 
+import Library.KeyEncodeDecode;
+
+import java.security.Key;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -19,10 +22,11 @@ public class Setters {
 
     public static void InsertNew(
             String Name,
-            String Priv_key,
-            String Pub_key,
+            Key Priv_key,
+            Key Pub_key,
             String ip,
             int port) {
+
 
         String sql = "INSERT INTO " + DB.table
                    + " (Name, Priv_key, Pub_key, ip, port)"
@@ -33,8 +37,8 @@ public class Setters {
             PreparedStatement preparedStmt = c.prepareStatement(sql);
 
             preparedStmt.setString(1, Name);
-            preparedStmt.setString(2,Priv_key);
-            preparedStmt.setString(3,Pub_key);
+            preparedStmt.setString(2, KeyEncodeDecode.stringEncodedKey(Priv_key));
+            preparedStmt.setString(3, KeyEncodeDecode.stringEncodedKey(Pub_key));
             preparedStmt.setString(4,ip);
             preparedStmt.setInt   (5,port);
 

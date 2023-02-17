@@ -46,7 +46,7 @@ class Server{
         KeyPair principalKeypair    = Keys.keyPairFor(SignatureAlgorithm.RS256);
 
         PoA poa = PoAGen.generateDefault();
-        lst.add("PoA-Pkey---" + poa.exportJWT(principalKeypair.getPrivate()) + "---" + KeyEncDec.stringEncodedKey(principalKeypair.getPublic()));
+        lst.add("PoA-Pkey---" + poa.exportJWT(principalKeypair.getPrivate()) + "---" + KeyEncodeDecode.stringEncodedKey(principalKeypair.getPublic()));
 
 
         /** Agent Key*/
@@ -61,7 +61,7 @@ class Server{
             String[] varibabel = str.split("---",3);
             switch(varibabel[0]){
                 case "PKey":
-                    agent1public = KeyEncDec.decodeKeyBytesPublic(varibabel[1]);
+                    agent1public = KeyEncodeDecode.decodeKeyBytesPublic(varibabel[1]);
                     ps.println(lst.get(i));
                     System.out.println("Skickar PoA|Pkey till client: " + lst.get(i));
                     i++;

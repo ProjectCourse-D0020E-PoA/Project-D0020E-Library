@@ -26,7 +26,7 @@ public class DB {
         try {
 
 
-            conn = DriverManager.getConnection("jdbc:mysql://0.0.0.0:3306/key_db?" +
+            conn = DriverManager.getConnection("jdbc:mysql://0.0.0.0:3307/key_db?" +
                             "user=bob&password=bob123!");
 
             // Do something with the Connection

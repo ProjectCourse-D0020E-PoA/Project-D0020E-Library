@@ -1,65 +1,69 @@
 package Application;
 
-import java.security.*;
 import java.util.Date;
+
+import Database.Getters;
 import Library.*;
 import java.security.Key;
 public class Agent  extends Thread{
     private final String agentName;
     private final int agentID;
+    private final Key agentPrivateKey;
+    private final Key agentPublicKey;
     private final String agentIP;
-    private final KeyPair agentKeyPair;
-    private final Key nextAgentPubKey;
     private Communications com;
 
     public Agent(String agentName,
                  int agentID,
-                 String agentIP,
-                 KeyPair agentKeyPair,
-                 Key nextAgentPubKey){
+                 String agentIP){
 
+
+        this.agentPrivateKey = Getters.getPriv(agentName);
+        this.agentPublicKey = Getters.getPub(agentName);
         this.agentName = agentName;
         this.agentID = agentID;
         this.agentIP = agentIP;
-        this.agentKeyPair = agentKeyPair;
-        this.nextAgentPubKey = nextAgentPubKey;
         this.com = new Communications();
     }
 
     // Generate and set the values of the requested PoA
     public PoA setValues(int recourceOwnerID,
                          int transferable,
-                         String pricipalPublicKey,
-                         String principalName,
-                         String agentKey,
-                         String agentName,
+                         String nextAgentName,
                          Date expiredAt,
                          String[] metaData){
 
-        PoA poa = PoAGen.generate(recourceOwnerID, transferable, pricipalPublicKey, principalName, agentKey, agentName, expiredAt, metaData);
+        PoA poa = PoAGen
+                .generateDefault()
+                .setResourceOwnerID(recourceOwnerID)
+                .setAgentPublicKey(KeyEncodeDecode.stringEncodedKey(Getters.getPub(nextAgentName)))
+                .setPrincipalName(this.agentName)
+                .setPrincipalPublicKey(KeyEncodeDecode.stringEncodedKey(this.agentPublicKey))
+                .setExpiredAt(expiredAt)
+                .setTransferable(transferable)
+                .setMetaData(metaData);
         return poa;
     };
 
     // Receive a poa, reconstruct to be able to send it again, decrement transferable and validate
-    public PoA recivePoA(int socketNumber, Key principalPublicKey){
+    public PoA recivePoA(int socketNumber, Key previousAgentPubKey){
         String message = this.com.receiveCom(socketNumber);
-        PoA poa = PoAGen.reconstruct(message,principalPublicKey);
+        PoA poa = PoAGen.reconstruct(message,previousAgentPubKey);
 
         if(poa.getTransferable() > 0){
             poa.setTransferable(poa.getTransferable()-1);
         }
-        System.out.println( "Result from agent validating the PoA:\n" + validatePoA(message, principalPublicKey));
+        System.out.println( "Result from agent validating the PoA:\n" + validatePoA(message, previousAgentPubKey));
         return(poa);
     }
 
     // Send to recipient
     public void sendPoA(PoA poa,
                         String ip,
-                        Key publicKey,
                         int portNumber){
 
         // Converts the PoA to a JasonWebToken
-        String jwt = poa.exportJWT(agentKeyPair.getPrivate());
+        String jwt = poa.exportJWT(agentPrivateKey);
         // Sends the token to the destination specified by ip and portnumber
         this.com.transmitCom(jwt, ip, portNumber);
     };
@@ -71,10 +75,11 @@ public class Agent  extends Thread{
 
     // When main runs .start on an object, this function is invoked
     public void run(){
-        recivePoA(888, nextAgentPubKey);
+        Getters.getPub(nextagent);
+        recivePoA(888, agent0);
     }
 
     // Should be implemented later to enable the end-of-the-line-agent to request a new expiration date for the PoA
-    public void requestNewTime(String PrincipalKey, String principalIP, Date newExpiredAt){ };
+    public void requestNewTime(String agent0Key, String agent0IP, Date newExpiredAt){ };
 }
 

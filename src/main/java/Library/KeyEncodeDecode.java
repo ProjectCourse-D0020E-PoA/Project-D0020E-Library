@@ -14,7 +14,7 @@ import java.util.Base64;
 /**
  * Handles encoding private and public keys to encoded strings and the reverse process
  */
-public class KeyEncDec {
+public class KeyEncodeDecode {
     // The code starts by declaring the variables that are needed for decoding and then declares a method 
     // called decodeKeyBytesPublic().
     // This method takes in a String, which contains the encoded public key,

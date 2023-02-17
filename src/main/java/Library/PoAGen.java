@@ -115,7 +115,7 @@ public class PoAGen {
             poa.setTransferable(poa.getTransferable() - 1);
 
             //maby replade this usage of metadata with its own variable in the poa object
-            poa.setPath(token + "-----" + KeyEncDec.stringEncodedKey(PublicKeySource));
+            poa.setPath(token + "-----" + KeyEncodeDecode.stringEncodedKey(PublicKeySource));
         }else{
             //throw some error (eg transferable == 0)
         }

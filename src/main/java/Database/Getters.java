@@ -1,6 +1,6 @@
 package Database;
 
-import Library.KeyEncDec;
+import Library.KeyEncodeDecode;
 
 import java.security.Key;
 import java.sql.*;
@@ -38,7 +38,7 @@ public class Getters {
         }catch (SQLException e){
             System.out.println(e.getErrorCode());
         }
-        return KeyEncDec.decodeKeyBytesPrivate(resString);
+        return KeyEncodeDecode.decodeKeyBytesPrivate(resString);
     }
 
     /**
@@ -73,7 +73,7 @@ public class Getters {
         }catch (SQLException e){
             System.out.println(e.getErrorCode());
         }
-        return KeyEncDec.decodeKeyBytesPublic(resString);
+        return KeyEncodeDecode.decodeKeyBytesPublic(resString);
     }
 
     /**
