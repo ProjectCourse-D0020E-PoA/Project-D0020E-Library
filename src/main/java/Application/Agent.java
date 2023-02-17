@@ -4,27 +4,25 @@ import java.security.*;
 import java.util.Date;
 import Library.*;
 import java.security.Key;
-
-
 public class Agent  extends Thread{
     private final String agentName;
     private final int agentID;
     private final String agentIP;
     private final KeyPair agentKeyPair;
-    private final KeyPair nextAgentKeyPair;
+    private final Key nextAgentPubKey;
     private Communications com;
 
     public Agent(String agentName,
                  int agentID,
                  String agentIP,
                  KeyPair agentKeyPair,
-                 KeyPair nextAgentKeyPair){
+                 Key nextAgentPubKey){
 
         this.agentName = agentName;
         this.agentID = agentID;
         this.agentIP = agentIP;
         this.agentKeyPair = agentKeyPair;
-        this.nextAgentKeyPair = nextAgentKeyPair;
+        this.nextAgentPubKey = nextAgentPubKey;
         this.com = new Communications();
     }
 
@@ -73,7 +71,7 @@ public class Agent  extends Thread{
 
     // When main runs .start on an object, this function is invoked
     public void run(){
-        recivePoA(888, nextAgentKeyPair.getPublic());
+        recivePoA(888, nextAgentPubKey);
     }
 
     // Should be implemented later to enable the end-of-the-line-agent to request a new expiration date for the PoA
