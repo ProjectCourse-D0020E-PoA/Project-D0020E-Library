@@ -7,8 +7,8 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
 
-public class Main{
-    public static void main(String[] args){
+public class Main extends Thread{
+    public static void main(String[] args) throws InterruptedException {
 
         // generating keys for the agent and principal
         KeyPair principalKeypair    = Keys.keyPairFor(SignatureAlgorithm.RS256);
@@ -18,11 +18,11 @@ public class Main{
         Agent principal = new Agent("principal",
                                     0,
                                     "localhost",
-                                    principalKeypair, agent1Keypair);
+                                    principalKeypair, agent1Keypair.getPublic());
         Agent agent1 = new Agent("agent1",
                                  1,
                                  "localhost",
-                                 agent1Keypair, principalKeypair); //Sending the same keypair because there is no more transactions
+                                 agent1Keypair, principalKeypair.getPublic()); //Sending the same keypair because there is no more transactions
         try {
             agent1.start();
         }catch (Exception e){
@@ -31,7 +31,7 @@ public class Main{
         }
 
         String[] metadata = {};
-        Date date =  new Date(System.currentTimeMillis()+ Days(5));
+        Date date =  new Date(System.currentTimeMillis()+ Days(1));
 
         // Setting valus for the PoA first handed out by the principal
         PoA poa = principal.setValues(0,
@@ -42,7 +42,7 @@ public class Main{
                             "agent1",
                             date,
                             metadata);
-
+        //agent1.wait(1000);
         // Send the PoA from the principal
         principal.sendPoA(poa, "localhost", agent1Keypair.getPublic(), 888);
 
