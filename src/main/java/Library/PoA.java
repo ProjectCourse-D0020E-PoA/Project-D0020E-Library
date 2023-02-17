@@ -29,7 +29,7 @@ public class PoA {
         return transferable;
     }
 
-    public PoA setPath(String path) {
+    protected PoA setPath(String path) {
         this.path = path;
         return this;
     }
