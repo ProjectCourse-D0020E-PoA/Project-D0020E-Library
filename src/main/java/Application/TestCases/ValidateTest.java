@@ -31,9 +31,8 @@ public class ValidateTest extends Thread{
 
         // Setting valus for the PoA first handed out by the Agent0
         PoA poa = agent0.setValues(0,
-                0,
+                1,
                 "agent0",
-                "agent1",
                 date,
                 metadata);
         //agent1.wait(1000);

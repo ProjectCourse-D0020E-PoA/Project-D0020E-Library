@@ -34,7 +34,6 @@ public class Getters {
             res.close();
             preparedStmt.close();
             c.close();
-
         }catch (SQLException e){
             System.out.println(e.getErrorCode());
         }

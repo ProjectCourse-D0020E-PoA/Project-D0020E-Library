@@ -48,7 +48,7 @@ public class Agent  extends Thread{
     // Receive a poa, reconstruct to be able to send it again, decrement transferable and validate
     public PoA recivePoA(int socketNumber, Key previousAgentPubKey){
         String message = this.com.receiveCom(socketNumber);
-        PoA poa = PoAGen.reconstruct(message,previousAgentPubKey);
+        PoA poa = PoAGen.reconstruct(message, previousAgentPubKey);
 
         if(poa.getTransferable() > 0){
             poa.setTransferable(poa.getTransferable()-1);
@@ -75,8 +75,9 @@ public class Agent  extends Thread{
 
     // When main runs .start on an object, this function is invoked
     public void run(){
-        Getters.getPub(nextagent);
-        recivePoA(888, agent0);
+        String nextAgentName = "agent" + (Integer.parseInt(this.agentName.substring(5, 6)) - 1);
+        System.out.print(nextAgentName);
+        recivePoA(888, Getters.getPub(nextAgentName));
     }
 
     // Should be implemented later to enable the end-of-the-line-agent to request a new expiration date for the PoA
