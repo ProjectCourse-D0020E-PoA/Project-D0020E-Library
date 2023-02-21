@@ -51,9 +51,10 @@ public class Agent  extends Thread{
         PoA poa = PoAGen.reconstruct(message, previousAgentPubKey);
 
         if(poa.getTransferable() > 0){
-            poa.setTransferable(poa.getTransferable()-1);
+            PoA encapsulatedPoA = PoAGen.transfer(message, previousAgentPubKey);
+            sendPoA(encapsulatedPoA, "localhost", 888);
         }
-        System.out.println( "Result from agent validating the PoA:\n" + validatePoA(message, previousAgentPubKey));
+        System.out.println( "Result from " + this.agentName + " validating the PoA:\n" + validatePoA(message, previousAgentPubKey));
         return(poa);
     }
 
@@ -75,9 +76,10 @@ public class Agent  extends Thread{
 
     // When main runs .start on an object, this function is invoked
     public void run(){
-        String nextAgentName = "agent" + (Integer.parseInt(this.agentName.substring(5, 6)) - 1);
-        System.out.print(nextAgentName);
-        recivePoA(888, Getters.getPub(nextAgentName));
+        System.out.println("Now " + this.agentName + " starts!\n");
+        String prevAgentName = "agent" + (Integer.parseInt(this.agentName.substring(5, 6)) - 1);
+        //System.out.println(prevAgentName);
+        recivePoA(888, Getters.getPub(prevAgentName));
     }
 
     // Should be implemented later to enable the end-of-the-line-agent to request a new expiration date for the PoA
