@@ -45,8 +45,6 @@ public class TransferableTest {
         // Send the PoA from the agent0
         agent0.sendPoA(poa, "localhost", 889);
 
-        // We end by validating the PoA before terminating the thread
-        System.out.println("Result check: ");
         try {
             agent2.start();
         }catch (Exception e){
