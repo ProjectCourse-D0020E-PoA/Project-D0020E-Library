@@ -14,16 +14,16 @@ public class Communications{
         // Initialize message string
         String message = "";
         try {
-            System.out.println("Starting listening for communication:\n");
+            //System.out.println("Starting listening for communication:\n");
             Socket s = new ServerSocket(socketNumber).accept();
-            System.out.println("Connection established\n");
+            //System.out.println("Connection established\n");
             // To read data coming from the server
             BufferedReader dataIn
                     = new BufferedReader(
                     new InputStreamReader(
                             s.getInputStream()));
             message = dataIn.readLine();
-            System.out.println("Message recived\n");
+            //System.out.println("Message recived\n");
             dataIn.close();
             s.close();
 
@@ -38,9 +38,9 @@ public class Communications{
 
         try {
             // Tries to connect to a socket with specified ip and portnumber
-            System.out.println("transmitCom trying to establish a connection\n");
+            //System.out.println("transmitCom trying to establish a connection\n");
             Socket s = new Socket(ip, portNumber);
-            System.out.println("Communication established\n");
+            //System.out.println("Communication established\n");
             // to send data to agent
             DataOutputStream dataOut
                     = new DataOutputStream(
