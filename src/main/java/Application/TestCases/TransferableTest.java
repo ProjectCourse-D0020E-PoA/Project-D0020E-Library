@@ -43,18 +43,16 @@ public class TransferableTest {
                 metadata);
 
         // Send the PoA from the agent0
-        agent0.sendPoA(poa, "localhost", 888);
+        agent0.sendPoA(poa, "localhost", 889);
 
         // We end by validating the PoA before terminating the thread
         System.out.println("Result check: ");
-        Thread.sleep(10000);
         try {
             agent2.start();
         }catch (Exception e){
             System.out.println("Error when starting agent2: " + e);
             System.exit(0);
         }
-        Thread.sleep(10000);
         try {
             agent3.start();
         }catch (Exception e){

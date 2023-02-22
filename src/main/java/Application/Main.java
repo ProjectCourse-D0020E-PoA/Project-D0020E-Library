@@ -25,17 +25,17 @@ public class Main extends Thread{
                 KeyEncodeDecode.stringEncodedKey(agent1Keypair.getPrivate()),
                 KeyEncodeDecode.stringEncodedKey(agent1Keypair.getPublic()),
                 "localhost",
-                888);
+                889);
         Setters.InsertNew("agent2",
                 KeyEncodeDecode.stringEncodedKey(agent2Keypair.getPrivate()),
                 KeyEncodeDecode.stringEncodedKey(agent2Keypair.getPublic()),
                 "localhost",
-                888);
+                890);
         Setters.InsertNew("agent3",
                 KeyEncodeDecode.stringEncodedKey(agent3Keypair.getPrivate()),
                 KeyEncodeDecode.stringEncodedKey(agent3Keypair.getPublic()),
                 "localhost",
-                888);
+                891);
 
         Getters.getPriv("agent0");
 

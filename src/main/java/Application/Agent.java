@@ -47,12 +47,15 @@ public class Agent  extends Thread{
 
     // Receive a poa, reconstruct to be able to send it again, decrement transferable and validate
     public PoA recivePoA(int socketNumber, Key previousAgentPubKey){
-        String message = this.com.receiveCom(socketNumber);
+        System.out.println(this.agentName + " Calling reciveCom");
+        String message = this.com.receiveCom(Integer.valueOf(Getters.getPort(this.agentName)));
+        System.out.println(this.agentName + " recived from reciveCom");
         PoA poa = PoAGen.reconstruct(message, previousAgentPubKey);
 
         if(poa.getTransferable() > 0){
             PoA encapsulatedPoA = PoAGen.transfer(message, previousAgentPubKey);
-            sendPoA(encapsulatedPoA, "localhost", 888);
+            String nextagent = "agent" + (Integer.parseInt(this.agentName.substring(5, 6)) + 1);
+            sendPoA(encapsulatedPoA, this.agentIP, Integer.parseInt(Getters.getPort(nextagent)));
         }
         System.out.println( "Result from " + this.agentName + " validating the PoA:\n" + validatePoA(message, previousAgentPubKey));
         return(poa);
@@ -66,7 +69,9 @@ public class Agent  extends Thread{
         // Converts the PoA to a JasonWebToken
         String jwt = poa.exportJWT(agentPrivateKey);
         // Sends the token to the destination specified by ip and portnumber
+        System.out.println(this.agentName + " Calling transmittCom");
         this.com.transmitCom(jwt, ip, portNumber);
+        System.out.println(this.agentName + " transmittCom finished");
     };
 
     // Uses the validate method from the library for the PoA

@@ -31,13 +31,13 @@ public class ValidateTest extends Thread{
 
         // Setting valus for the PoA first handed out by the Agent0
         PoA poa = agent0.setValues(0,
-                1,
+                0,
                 "agent0",
                 date,
                 metadata);
         //agent1.wait(1000);
         // Send the PoA from the agent0
-        agent0.sendPoA(poa, "localhost", 888);
+        agent0.sendPoA(poa, "localhost", 889);
 
         // We end by validating the PoA before terminating the thread
         System.out.println("Result check: ");
