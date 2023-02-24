@@ -8,18 +8,22 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * Class to handle the setters needed for the application to interact with out database
+ * @author Isak Forsgren
+ */
 public class Setters {
-
-    public void SetOwnPriv() throws SQLException {
-        Connection c = DB.Connect();
-        String sql = "Update " + DB.table + " where id = 1";
-        Statement statement = c.createStatement();
-        statement.execute(sql);
-        statement.close();
-        c.close();
-    }
-
-
+    /**
+     * InsertNew Takes everything stored in the database as parameters and adds a new entry in to the table
+     *
+     * @param Name acting like the primary key in the data base
+     * @param Priv_key (RS256) encoded to String format
+     * @param Pub_key (RS256) encoded to String format
+     * @param ip address in a string for to allow for localhost
+     * @param port number representing the port that's supposed to be used for communications
+     *
+     * @author Isak Forsgren
+     */
     public static void InsertNew(
             String Name,
             String Priv_key,
@@ -51,6 +55,16 @@ public class Setters {
 
 
     }
+
+    /**
+     * UpdateKeys Updates the entry where the Name == @param Name
+     *
+     * @param Name acting like the primary key in the data base
+     * @param Priv_key (RS256) encoded to String format
+     * @param Pub_key (RS256) encoded to String format
+     *
+     * @author Isak Forsgren
+     */
     public static void UpdateKeys(
             String Name,
             String Priv_key,
@@ -77,6 +91,16 @@ public class Setters {
         }
 
     }
+
+    /**
+     * UpdateIP Updates the entry where the Name == @param Name
+     *
+     * @param Name like the primary key in the data base
+     * @param ip address in a string for to allow for localhost
+     * @param port number representing the port that's supposed to be used for communications
+     *
+     * @author Isak Forsgren
+     */
     public static void UpdateIP(
             String Name,
             String ip,
@@ -102,5 +126,20 @@ public class Setters {
             e.printStackTrace();
         }
 
+    }
+
+    /**
+     * This Seams like a test method, might need to be Deleted
+     * @return Key
+     * @author Isak Forsgren
+     * @throws SQLException
+     */
+    public void SetOwnPriv() throws SQLException {
+        Connection c = DB.Connect();
+        String sql = "Update " + DB.table + " where id = 1";
+        Statement statement = c.createStatement();
+        statement.execute(sql);
+        statement.close();
+        c.close();
     }
 }

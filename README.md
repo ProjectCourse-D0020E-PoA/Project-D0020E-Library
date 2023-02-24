@@ -1,6 +1,8 @@
 # Project-D0020E POA lib
+The library is intended to be published to some public java Library site ex Maven.
+Currently, the library code is just in a separate repository to emulate having it as an import for our test applications.
 
-The implementation is object bases, where you can generate a PoA object.
+The implementation is object based, where you can generate a PoA object.
 ```java
     public class PoA {
 
@@ -35,6 +37,7 @@ public class example {
 ````
 
 This example generates a default PoA and sets the required variables using the setter methods.
+Since the setters return the PoA u can call them in one after another like shown above.
 
 ````java
 public class PoAGen {

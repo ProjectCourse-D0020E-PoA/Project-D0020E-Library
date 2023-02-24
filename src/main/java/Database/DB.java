@@ -5,7 +5,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-
+/**
+ * Class to handle connecting to the database and database setup
+ * @author Isak Forsgren
+ */
 public class DB {
 
     public static String table = "key_db.keys";

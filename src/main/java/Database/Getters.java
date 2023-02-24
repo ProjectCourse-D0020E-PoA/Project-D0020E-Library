@@ -4,7 +4,10 @@ import Library.KeyEncodeDecode;
 
 import java.security.Key;
 import java.sql.*;
-
+/**
+ * Class to handle the setters needed for the application to interact with out database
+ * @author Isak Forsgren
+ */
 public class Getters {
 
     /**
