@@ -13,12 +13,16 @@ public class ValidateTest extends Thread{
 
 
         // creating instances of agent0 and agent
-        Agent agent0 = new Agent("agent0",
+        Agent agent0 = new Agent(
+                "agent0",
                 0,
-                "localhost");
-        Agent agent1 = new Agent("agent1",
+                "localhost",
+                0);
+        Agent agent1 = new Agent(
+                "agent1",
                 1,
-                "localhost");
+                "localhost",
+                1);
         try {
             agent1.start();
         }catch (Exception e){

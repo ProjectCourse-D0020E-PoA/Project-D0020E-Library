@@ -12,10 +12,11 @@ public class Agent  extends Thread{
     private final Key agentPublicKey;
     private final String agentIP;
     private Communications com;
+    private final int lastAgent;
 
     public Agent(String agentName,
                  int agentID,
-                 String agentIP){
+                 String agentIP, int lastAgent){
 
 
         this.agentPrivateKey = Getters.getPriv(agentName);
@@ -24,6 +25,7 @@ public class Agent  extends Thread{
         this.agentID = agentID;
         this.agentIP = agentIP;
         this.com = new Communications();
+        this.lastAgent = lastAgent;
     }
 
     // Generate and set the values of the requested PoA
@@ -52,7 +54,7 @@ public class Agent  extends Thread{
         //System.out.println(this.agentName + " recived from reciveCom");
         PoA poa = PoAGen.reconstruct(message, previousAgentPubKey);
 
-        if(poa.getTransferable() > 1){
+        if(poa.getTransferable() > 1 && this.lastAgent == 0){
             PoA encapsulatedPoA = PoAGen.transfer(message, previousAgentPubKey);
             String nextagent = "agent" + (Integer.parseInt(this.agentName.substring(5, 6)) + 1);
             sendPoA(encapsulatedPoA, this.agentIP, Integer.parseInt(Getters.getPort(nextagent)));

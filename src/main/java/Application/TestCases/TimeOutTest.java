@@ -10,8 +10,17 @@ public class TimeOutTest {
     public static void main(String[] args) throws InterruptedException {
 
         // creating instances of agent0 and agent
-        Agent agent0 = new Agent("agent0", 0, "localhost");
-        Agent agent1 = new Agent("agent1", 1, "localhost");
+        Agent agent0 = new Agent(
+                "agent0",
+                0,
+                "localhost",
+                0);
+
+        Agent agent1 = new Agent(
+                "agent1",
+                1,
+                "localhost",
+                1);
         try {
             agent1.start();
         }catch (Exception e){
@@ -20,7 +29,7 @@ public class TimeOutTest {
         }
 
         String[] metadata = {};
-        Date date =  new Date(System.currentTimeMillis()+ Days(1));
+        Date date =  new Date(System.currentTimeMillis()+ Days(0));
 
         // Setting values for the PoA first handed out by the Agent0
         PoA poa = agent0.setValues(0, 0, "agent0",

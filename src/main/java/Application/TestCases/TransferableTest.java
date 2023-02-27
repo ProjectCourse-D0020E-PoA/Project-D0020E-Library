@@ -12,18 +12,29 @@ public class TransferableTest {
 
 
         // creating instances of agent0 and agent
-        Agent agent0 = new Agent("agent0",
+        Agent agent0 = new Agent(
+                "agent0",
                 0,
-                "localhost");
-        Agent agent1 = new Agent("agent1",
+                "localhost",
+                0);
+
+        Agent agent1 = new Agent(
+                "agent1",
                 1,
-                "localhost");
-        Agent agent2 = new Agent("agent2",
+                "localhost",
+                0);
+
+        Agent agent2 = new Agent(
+                "agent2",
                 2,
-                "localhost");
-        Agent agent3 = new Agent("agent3",
+                "localhost",
+                0);
+
+        Agent agent3 = new Agent(
+                "agent3",
                 3,
-                "localhost");
+                "localhost",
+                1);
 
         try {
             agent1.start();
