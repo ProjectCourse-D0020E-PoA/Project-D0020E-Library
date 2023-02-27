@@ -22,7 +22,7 @@ The implementation is object based, where you can generate a PoA object.
 ```
    Using build in methods in ``PoAGen`` to generate the object and using setters to set the variables in the generated PoA object.
    
-###Exaples for generating PoA´s
+### Exaples for generating PoA´s
 ````java
 public class example {
     
