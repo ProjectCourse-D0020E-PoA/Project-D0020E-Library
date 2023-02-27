@@ -82,7 +82,7 @@ This is to prevent direct accuses to the PoA methods to block un-intended utiliz
 
 We implemented both the constructor and setter methods to enable developers to use whatever method they find the easiest.
 
-###Example PoA Validation
+### Example PoA Validation
 
  Attempts to parse the PoA token using the Key,
  if the key is wrong, or the token has been modified this will false otherwise true.
@@ -116,7 +116,7 @@ Both methods take the JWT, and the senders public key.
 
 The intended use of this is for a Resource-owner to validate the PoAs validity before grating whatever resource the Agent is requesting.
 
-###KeyEncodeDecode
+### KeyEncodeDecode
 Is a class containing helper methods to encode and decode sha256 keys to a string format and back.
 _**Encoding**_ works the same for both Private and Public Keys, but _**Decoding**_ requires a different method for the different Key types
 
