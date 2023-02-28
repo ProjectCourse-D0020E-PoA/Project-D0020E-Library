@@ -174,4 +174,25 @@ public class PoA {
                 .claim("path",this.path)
                 .compact();
     }
+
+    public String getresourceOwnerID(){return ("" + this.resourceOwnerID);}
+
+    public String gettransferable(){return ("" + this.transferable);}
+
+    public String getPrincipalPublicKey(){return (this.principalPublicKey);}
+
+    public String getprincipalName(){return (this.principalName);}
+
+    public String getagentPublicKey(){return (this.agentPublicKey);}
+
+    public String getagentName(){return (this.agentName);}
+
+    public String getexpiredAt(){return ("" + this.expiredAt);}
+
+
+
+
+
 }
+
+

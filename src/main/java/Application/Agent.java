@@ -4,7 +4,9 @@ import java.util.Date;
 
 import Database.Getters;
 import Library.*;
+import io.jsonwebtoken.Claims;
 import java.security.Key;
+
 public class Agent  extends Thread{
     private final String agentName;
     private final int agentID;
@@ -53,11 +55,13 @@ public class Agent  extends Thread{
         String message = this.com.receiveCom(Integer.valueOf(Getters.getPort(this.agentName)));
         //System.out.println(this.agentName + " recived from reciveCom");
         PoA poa = PoAGen.reconstruct(message, previousAgentPubKey);
+        print(poa);
+
 
         if(poa.getTransferable() > 1 && this.lastAgent == 0){
             PoA encapsulatedPoA = PoAGen.transfer(message, previousAgentPubKey);
-            String nextagent = "agent" + (Integer.parseInt(this.agentName.substring(5, 6)) + 1);
-            sendPoA(encapsulatedPoA, this.agentIP, Integer.parseInt(Getters.getPort(nextagent)));
+            String nextAgent = "agent" + (Integer.parseInt(this.agentName.substring(5, 6)) + 1);
+            sendPoA(encapsulatedPoA, this.agentIP, Integer.parseInt(Getters.getPort(nextAgent)));
         }
         System.out.println( "-Result from " + this.agentName + " validating the PoA: " + validatePoA(message, previousAgentPubKey));
         return(poa);
@@ -91,5 +95,24 @@ public class Agent  extends Thread{
 
     // Should be implemented later to enable the end-of-the-line-agent to request a new expiration date for the PoA
     public void requestNewTime(String agent0Key, String agent0IP, Date newExpiredAt){ };
+
+    public void print(PoA poa){
+        String resourceOwnerID = poa.getresourceOwnerID();
+        String transferable = poa.gettransferable();
+        String principalPublicKey = poa.getPrincipalPublicKey();
+        String principalName = poa.getprincipalName();
+        String agentKey = poa.getagentPublicKey();
+        String agentName = poa.getagentName();
+        String expiredAt = poa.getexpiredAt();
+
+        System.out.print("PoA: \n"
+                + resourceOwnerID + "\n"
+                + transferable + "\n"
+                + principalPublicKey + "\n"
+                + principalName + "\n"
+                + agentKey + "\n"
+                + agentName + "\n"
+                + expiredAt + "\n\n" );
+    }
 }
 
