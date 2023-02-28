@@ -121,6 +121,118 @@ Is a class containing helper methods to encode and decode sha256 keys to a strin
 _**Encoding**_ works the same for both Private and Public Keys, but _**Decoding**_ requires a different method for the different Key types
 
 # Project-D0020E POA Test application
-````java
 
+To understand the testcases you need to understand the Agent class. 
+````java
+public class Agent  extends Thread{
+ private final String agentName;
+ private final int agentID;
+ private final Key agentPrivateKey;
+ private final Key agentPublicKey;
+ private final String agentIP;
+ private Communications com;
+ private final int lastAgent;
+ 
+
+ // Receive a poa, reconstruct to be able to send it again, decrement transferable and validate
+ public PoA recivePoA(int socketNumber, Key previousAgentPubKey){
+  //System.out.println(this.agentName + " calling reciveCom");
+  String message = this.com.receiveCom(Integer.valueOf(Getters.getPort(this.agentName)));
+  //System.out.println(this.agentName + " recived from reciveCom");
+  PoA poa = PoAGen.reconstruct(message, previousAgentPubKey);
+  print(poa);
+
+
+  if(poa.getTransferable() > 1 && this.lastAgent == 0){
+   PoA encapsulatedPoA = PoAGen.transfer(message, previousAgentPubKey);
+   String nextAgent = "agent" + (Integer.parseInt(this.agentName.substring(5, 6)) + 1);
+   sendPoA(encapsulatedPoA, this.agentIP, Integer.parseInt(Getters.getPort(nextAgent)));
+  }
+  System.out.println( "-Result from " + this.agentName + " validating the PoA: " + validatePoA(message, previousAgentPubKey));
+  return(poa);
+ }
+
+ // Send to recipient
+ public void sendPoA(PoA poa,
+                     String ip,
+                     int portNumber){
+
+  // Converts the PoA to a JasonWebToken
+  String jwt = poa.exportJWT(agentPrivateKey);
+  // Sends the token to the destination specified by ip and portnumber
+  //System.out.println(this.agentName + " Calling transmittCom");
+  this.com.transmitCom(jwt, ip, portNumber);
+  //System.out.println(this.agentName + " transmittCom finished");
+ }
+}
+````
+
+
+
+This is the testcase tests the transferability of the PoA. As you can see in the code we create 4 agents. Where agent0 is the prinicpal 
+````java
+public class TransferableTest {
+
+
+    public static void main(String[] args) throws InterruptedException {
+
+
+        // creating instances of agent0 and agent
+        Agent agent0 = new Agent(
+                "agent0",
+                0,
+                "localhost",
+                0);
+
+        Agent agent1 = new Agent(
+                "agent1",
+                1,
+                "localhost",
+                0);
+
+        Agent agent2 = new Agent(
+                "agent2",
+                2,
+                "localhost",
+                0);
+
+        Agent agent3 = new Agent(
+                "agent3",
+                3,
+                "localhost",
+                1);
+
+        try {
+            agent1.start();
+        }catch (Exception e){
+            System.out.println("Error when starting agent1: (\"bingo bango det funkar inte\") " + e);
+            System.exit(0);
+        }
+
+        String[] metadata = {};
+        Date date =  new Date(System.currentTimeMillis()+ Days(1));
+
+        // Setting valus for the PoA first handed out by the Agent0
+        PoA poa = agent0.setValues(0,
+                3,
+                "agent1",
+                date,
+                metadata);
+
+        // Send the PoA from the agent0
+        agent0.sendPoA(poa, "localhost", 889);
+
+        try {
+            agent2.start();
+        }catch (Exception e){
+            System.out.println("Error when starting agent2: " + e);
+            System.exit(0);
+        }
+        try {
+            agent3.start();
+        }catch (Exception e){
+            System.out.println("Error when starting agent3: " + e);
+            System.exit(0);
+        }
+    }
 ````
