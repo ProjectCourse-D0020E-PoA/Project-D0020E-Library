@@ -29,6 +29,19 @@ public class Agent  extends Thread{
         this.com = new Communications();
         this.lastAgent = lastAgent;
     }
+    public Agent(String agentName,
+                 int agentID,
+                 String agentIP, int lastAgent, Key agentPublicKey, Key agentPrivateKey){
+
+
+        this.agentPrivateKey = agentPrivateKey;
+        this.agentPublicKey = agentPublicKey;
+        this.agentName = agentName;
+        this.agentID = agentID;
+        this.agentIP = agentIP;
+        this.com = new Communications();
+        this.lastAgent = lastAgent;
+    }
 
     // Generate and set the values of the requested PoA
     public PoA setValues(int recourceOwnerID,
