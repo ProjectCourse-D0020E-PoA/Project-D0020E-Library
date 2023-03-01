@@ -61,6 +61,7 @@ public class Agent  extends Thread{
         if(poa.getTransferable() > 1 && this.lastAgent == 0){
             PoA encapsulatedPoA = PoAGen.transfer(message, previousAgentPubKey);
             String nextAgent = "agent" + (Integer.parseInt(this.agentName.substring(5, 6)) + 1);
+            //ToDo update agent name and agentpublickey
             sendPoA(encapsulatedPoA, this.agentIP, Integer.parseInt(Getters.getPort(nextAgent)));
         }
         System.out.println( "-Result from " + this.agentName + " validating the PoA: " + validatePoA(message, previousAgentPubKey));
