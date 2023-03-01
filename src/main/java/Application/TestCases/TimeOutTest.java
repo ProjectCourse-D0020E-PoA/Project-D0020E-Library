@@ -30,10 +30,11 @@ public class TimeOutTest {
         // Run sendPoA() method in a separate thread with a timeout of x seconds
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Future<?> future= executor.submit(() -> agent0.sendPoA(poa, "localhost", 889));
+        System.out.println("Started sendPoa() method in a separate thread");
 
         try {
-            // wait for x sec/days (up to you to decide) for the method to complete
-            future.get(5, TimeUnit.SECONDS);
+            future.get(5, TimeUnit.SECONDS); // wait for x sec/days (up to you to decide) for the method to complete
+            System.out.println("sendPoA method completed successfully");
 
         } catch (TimeoutException e) {
             // Handle timeout exception
