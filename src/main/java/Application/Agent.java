@@ -34,13 +34,13 @@ public class Agent  extends Thread{
                  String agentIP, int lastAgent, Key agentPublicKey, Key agentPrivateKey){
 
 
-        this.agentPrivateKey = agentPrivateKey;
-        this.agentPublicKey = agentPublicKey;
         this.agentName = agentName;
         this.agentID = agentID;
         this.agentIP = agentIP;
         this.com = new Communications();
         this.lastAgent = lastAgent;
+        this.agentPrivateKey = agentPrivateKey;
+        this.agentPublicKey = agentPublicKey;
     }
 
     // Generate and set the values of the requested PoA
