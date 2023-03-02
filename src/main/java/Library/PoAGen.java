@@ -76,11 +76,12 @@ public class PoAGen {
         //Precession loss on the New Dates due to the way JWT stores the dates in the token body
         //somewhat close to the PoA that's being recreated
         return new PoA(
-                (int) body.get("recourceOwnerID"),
+                (int) body.get("resourceOwnerID"),
                 (int) body.get("transferable"),
-                (String) body.get("pricipalPublicKey"),
+                (String) body.get("principalPublicKey"),
                 (String) body.get("principalName"),
                 (String) body.get("agentKey"),
+                (String) body.get("agentName"), //todo Might be this is missed
             
             // then it setse up date information for when this object was generated (iat),
             // when it expires (exp), what its metaData is (path) as well as setting up how to encode

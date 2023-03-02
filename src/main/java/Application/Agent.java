@@ -49,7 +49,8 @@ public class Agent  extends Thread{
                          Date expiredAt,
                          String[] metaData){
 
-        PoA poa = PoAGen
+
+        return (PoAGen
                 .generateDefault()
                 .setResourceOwnerID(recourceOwnerID)
                 .setTransferable(transferable)
@@ -58,8 +59,7 @@ public class Agent  extends Thread{
                 .setAgentPublicKey(KeyEncodeDecode.stringEncodedKey(Getters.getPub(nextAgentName)))
                 .setAgentName(nextAgentName)
                 .setExpiredAt(expiredAt)
-                .setMetaData(metaData);
-        return poa;
+                .setMetaData(metaData));
     }
 
     // Receive a poa, reconstruct to be able to send it again, decrement transferable and validate
@@ -121,8 +121,7 @@ public class Agent  extends Thread{
         String agentName = poa.getAgentName();
         String issuedAt = poa.getIssuedAt();
         String expiredAt = poa.getExpiredAt();
-        String signingAlgorithem = poa.getSigningAlogrithm();
-
+        String signingAlgorithm = poa.getSigningAlgorithm();
 
 
         System.out.print("\nPoA contains the following: \n"
@@ -132,7 +131,7 @@ public class Agent  extends Thread{
                 + "Principal name       : " + principalName + "\n"
                 + "Next agent public key: " + agentKey + "\n"
                 + "Next agent name      : " + agentName + "\n"
-                + "Signing algorithm    : " + signingAlgorithem + "\n"
+                + "Signing algorithm    : " + signingAlgorithm + "\n"
                 + "issued at            : " + issuedAt + "\n"
                 + "Expire at            : " + expiredAt + "\n\n" );
     }

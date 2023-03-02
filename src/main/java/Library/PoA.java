@@ -91,17 +91,17 @@ public class PoA {
      * @param metaData Gets convetred to string for the JWT
      */
     protected PoA(
-            int recourceOwnerID,
+            int resourceOwnerID,
             int transferable,
-            String pricipalPublicKey,
+            String principalPublicKey,
             String principalName,
             String agentKey,
             String agentName,
             Date expiredAt,
             String[] metaData) {
 
-        this.principalPublicKey = pricipalPublicKey;
-        this.resourceOwnerID = recourceOwnerID;
+        this.principalPublicKey = principalPublicKey;
+        this.resourceOwnerID = resourceOwnerID;
         this.transferable = transferable;
         this.principalName = principalName;
         this.agentPublicKey = agentKey;
@@ -126,20 +126,22 @@ public class PoA {
      * @param metaData Gets convetred to string for the JWT
      */
     protected PoA(
-            int recourceOwnerID,
+            int resourceOwnerID,
             int transferable,
-            String pricipalPublicKey,
+            String principalPublicKey,
             String principalName,
             String agentKey,
+            String agentName,
             Date issuedAt,
             Date expiredAt,
             String metaData) {
 
-        this.principalPublicKey = pricipalPublicKey;
-        this.resourceOwnerID = recourceOwnerID;
+        this.principalPublicKey = principalPublicKey;
+        this.resourceOwnerID = resourceOwnerID;
         this.transferable = transferable;
         this.principalName = principalName;
         this.agentPublicKey = agentKey;
+        this.agentName = agentName;
         this.issuedAt = issuedAt;
         this.expiredAt = expiredAt;
         this.metaData = metaData;
@@ -186,7 +188,7 @@ public class PoA {
     public String getAgentName(){return (this.agentName);}
     public String getIssuedAt(){return ("" + this.issuedAt);}
     public String getExpiredAt(){return ("" + this.expiredAt);}
-    public String getSigningAlogrithm(){return(this.signingAlogrithm);}
+    public String getSigningAlgorithm(){return(this.signingAlogrithm);}
 
 
 
