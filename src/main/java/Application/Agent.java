@@ -4,7 +4,6 @@ import java.util.Date;
 
 import Database.Getters;
 import Library.*;
-import io.jsonwebtoken.Claims;
 import java.security.Key;
 
 public class Agent  extends Thread{
@@ -61,10 +60,10 @@ public class Agent  extends Thread{
                 .setExpiredAt(expiredAt)
                 .setMetaData(metaData);
         return poa;
-    };
+    }
 
     // Receive a poa, reconstruct to be able to send it again, decrement transferable and validate
-    public PoA recivePoA(int socketNumber, Key previousAgentPubKey){
+    public PoA recivePoA(Key previousAgentPubKey){
         //System.out.println(this.agentName + " calling reciveCom");
         String message = this.com.receiveCom(Integer.valueOf(Getters.getPort(this.agentName)));
         //System.out.println(this.agentName + " recived from reciveCom");
@@ -95,7 +94,7 @@ public class Agent  extends Thread{
         //System.out.println(this.agentName + " Calling transmittCom");
         this.com.transmitCom(jwt, ip, portNumber);
         //System.out.println(this.agentName + " transmittCom finished");
-    };
+    }
 
     // Uses the validate method from the library for the PoA
     public boolean validatePoA(String token, Key key){
@@ -107,11 +106,11 @@ public class Agent  extends Thread{
         System.out.println("Now " + this.agentName + " starts!\n");
         String prevAgentName = "agent" + (Integer.parseInt(this.agentName.substring(5, 6)) - 1);
         //System.out.println(prevAgentName);
-        recivePoA(888, Getters.getPub(prevAgentName));
+        recivePoA(Getters.getPub(prevAgentName));
     }
 
     // Should be implemented later to enable the end-of-the-line-agent to request a new expiration date for the PoA
-    public void requestNewTime(String agent0Key, String agent0IP, Date newExpiredAt){ };
+    public void requestNewTime(String agent0Key, String agent0IP, Date newExpiredAt){ }
 
     public void print(PoA poa){
         String resourceOwnerID = poa.getResourceOwnerID();
@@ -122,17 +121,19 @@ public class Agent  extends Thread{
         String agentName = poa.getAgentName();
         String issuedAt = poa.getIssuedAt();
         String expiredAt = poa.getExpiredAt();
+        String signingAlgorithem = poa.getSigningAlogrithm();
 
 
-        System.out.print("PoA: \n"
-                + resourceOwnerID + "\n"
-                + transferable + "\n"
-                + principalPublicKey + "\n"
-                + principalName + "\n"
-                + agentKey + "\n"
-                + agentName + "\n"
-                + issuedAt + "\n"
-                + expiredAt + "\n\n" );
+        System.out.print("\nPoA contains the following: \n"
+                + "PrincipalID          : " + resourceOwnerID + "\n"
+                + "Transferble          : " + transferable + "\n"
+                + "Principal public key : " + principalPublicKey + "\n"
+                + "Principal name       : " + principalName + "\n"
+                + "Next agent public key: " + agentKey + "\n"
+                + "Next agent name      : " + agentName + "\n"
+                + "Signing algorithm    : " + signingAlgorithem + "\n"
+                + "issued at            : " + issuedAt + "\n"
+                + "Expire at            : " + expiredAt + "\n\n" );
     }
 }
 

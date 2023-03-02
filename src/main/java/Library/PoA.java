@@ -186,7 +186,7 @@ public class PoA {
     public String getAgentName(){return (this.agentName);}
     public String getIssuedAt(){return ("" + this.issuedAt);}
     public String getExpiredAt(){return ("" + this.expiredAt);}
-
+    public String getSigningAlogrithm(){return(this.signingAlogrithm);}
 
 
 
