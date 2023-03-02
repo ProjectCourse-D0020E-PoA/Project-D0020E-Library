@@ -123,6 +123,7 @@ public class Agent  extends Thread{
         String issuedAt = poa.getIssuedAt();
         String expiredAt = poa.getExpiredAt();
 
+
         System.out.print("PoA: \n"
                 + resourceOwnerID + "\n"
                 + transferable + "\n"
