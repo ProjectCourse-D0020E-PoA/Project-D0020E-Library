@@ -29,6 +29,19 @@ public class Agent  extends Thread{
         this.com = new Communications();
         this.lastAgent = lastAgent;
     }
+    public Agent(String agentName,
+                 int agentID,
+                 String agentIP, int lastAgent, Key agentPublicKey, Key agentPrivateKey){
+
+
+        this.agentName = agentName;
+        this.agentID = agentID;
+        this.agentIP = agentIP;
+        this.com = new Communications();
+        this.lastAgent = lastAgent;
+        this.agentPrivateKey = agentPrivateKey;
+        this.agentPublicKey = agentPublicKey;
+    }
 
     // Generate and set the values of the requested PoA
     public PoA setValues(int recourceOwnerID,
@@ -61,7 +74,6 @@ public class Agent  extends Thread{
         if(poa.getTransferable() > 1 && this.lastAgent == 0){
             PoA encapsulatedPoA = PoAGen.transfer(message, previousAgentPubKey);
             String nextAgent = "agent" + (Integer.parseInt(this.agentName.substring(5, 6)) + 1);
-            //ToDo update agent name and agentpublickey
             sendPoA(encapsulatedPoA, this.agentIP, Integer.parseInt(Getters.getPort(nextAgent)));
         }
         System.out.println( "-Result from " + this.agentName + " validating the PoA: " + validatePoA(message, previousAgentPubKey));
