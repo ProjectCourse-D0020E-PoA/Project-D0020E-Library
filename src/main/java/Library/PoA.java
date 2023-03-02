@@ -175,19 +175,17 @@ public class PoA {
                 .compact();
     }
 
-    public String getresourceOwnerID(){return ("" + this.resourceOwnerID);}
-
-    public String gettransferable(){return ("" + this.transferable);}
+    public String getResourceOwnerID(){return ("" + this.resourceOwnerID);}
 
     public String getPrincipalPublicKey(){return (this.principalPublicKey);}
 
-    public String getprincipalName(){return (this.principalName);}
+    public String getPrincipalName(){return (this.principalName);}
 
-    public String getagentPublicKey(){return (this.agentPublicKey);}
+    public String getAgentPublicKey(){return (this.agentPublicKey);}
 
-    public String getagentName(){return (this.agentName);}
-
-    public String getexpiredAt(){return ("" + this.expiredAt);}
+    public String getAgentName(){return (this.agentName);}
+    public String getIssuedAt(){return ("" + this.issuedAt);}
+    public String getExpiredAt(){return ("" + this.expiredAt);}
 
 
 

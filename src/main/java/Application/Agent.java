@@ -53,11 +53,12 @@ public class Agent  extends Thread{
         PoA poa = PoAGen
                 .generateDefault()
                 .setResourceOwnerID(recourceOwnerID)
-                .setAgentPublicKey(KeyEncodeDecode.stringEncodedKey(Getters.getPub(nextAgentName)))
-                .setPrincipalName(this.agentName)
-                .setPrincipalPublicKey(KeyEncodeDecode.stringEncodedKey(this.agentPublicKey))
-                .setExpiredAt(expiredAt)
                 .setTransferable(transferable)
+                .setPrincipalPublicKey(KeyEncodeDecode.stringEncodedKey(this.agentPublicKey))
+                .setPrincipalName(this.agentName)
+                .setAgentPublicKey(KeyEncodeDecode.stringEncodedKey(Getters.getPub(nextAgentName)))
+                .setAgentName(nextAgentName)
+                .setExpiredAt(expiredAt)
                 .setMetaData(metaData);
         return poa;
     };
@@ -74,8 +75,8 @@ public class Agent  extends Thread{
         if(poa.getTransferable() > 1 && this.lastAgent == 0){
             PoA encapsulatedPoA = PoAGen.transfer(message, previousAgentPubKey);
             String nextAgent = "agent" + (Integer.parseInt(this.agentName.substring(5, 6)) + 1);
-            poa.setAgentName(nextAgent);
-            poa.setAgentPublicKey(KeyEncodeDecode.stringEncodedKey(Getters.getPub(nextAgent)));
+            encapsulatedPoA.setAgentName(nextAgent);
+            encapsulatedPoA.setAgentPublicKey(KeyEncodeDecode.stringEncodedKey(Getters.getPub(nextAgent)));
             sendPoA(encapsulatedPoA, this.agentIP, Integer.parseInt(Getters.getPort(nextAgent)));
 
         }
@@ -113,13 +114,14 @@ public class Agent  extends Thread{
     public void requestNewTime(String agent0Key, String agent0IP, Date newExpiredAt){ };
 
     public void print(PoA poa){
-        String resourceOwnerID = poa.getresourceOwnerID();
-        String transferable = poa.gettransferable();
+        String resourceOwnerID = poa.getResourceOwnerID();
+        String transferable = (poa.getTransferable() + "");
         String principalPublicKey = poa.getPrincipalPublicKey();
-        String principalName = poa.getprincipalName();
-        String agentKey = poa.getagentPublicKey();
-        String agentName = poa.getagentName();
-        String expiredAt = poa.getexpiredAt();
+        String principalName = poa.getPrincipalName();
+        String agentKey = poa.getAgentPublicKey();
+        String agentName = poa.getAgentName();
+        String issuedAt = poa.getIssuedAt();
+        String expiredAt = poa.getExpiredAt();
 
         System.out.print("PoA: \n"
                 + resourceOwnerID + "\n"
@@ -128,6 +130,7 @@ public class Agent  extends Thread{
                 + principalName + "\n"
                 + agentKey + "\n"
                 + agentName + "\n"
+                + issuedAt + "\n"
                 + expiredAt + "\n\n" );
     }
 }
