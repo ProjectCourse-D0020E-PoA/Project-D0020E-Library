@@ -124,6 +124,7 @@ public class Agent  extends Thread{
         String signingAlgorithem = poa.getSigningAlogrithm();
 
 
+
         System.out.print("\nPoA contains the following: \n"
                 + "PrincipalID          : " + resourceOwnerID + "\n"
                 + "Transferble          : " + transferable + "\n"
