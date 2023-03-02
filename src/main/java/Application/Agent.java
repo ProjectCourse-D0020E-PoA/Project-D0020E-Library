@@ -76,6 +76,7 @@ public class Agent  extends Thread{
             String nextAgent = "agent" + (Integer.parseInt(this.agentName.substring(5, 6)) + 1);
             poa.setAgentName(nextAgent);
             poa.setAgentPublicKey(KeyEncodeDecode.stringEncodedKey(Getters.getPub(nextAgent)));
+
             sendPoA(encapsulatedPoA, this.agentIP, Integer.parseInt(Getters.getPort(nextAgent)));
 
         }
