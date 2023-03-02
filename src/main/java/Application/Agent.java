@@ -4,6 +4,7 @@ import java.util.Date;
 
 import Database.Getters;
 import Library.*;
+import io.jsonwebtoken.Claims;
 import java.security.Key;
 
 public class Agent  extends Thread{
@@ -43,7 +44,7 @@ public class Agent  extends Thread{
     }
 
     // Generate and set the values of the requested PoA
-    public PoA setValues(int recourceOwnerID,
+    public PoA setValues(int resourceOwnerID,
                          int transferable,
                          String nextAgentName,
                          Date expiredAt,
@@ -52,7 +53,7 @@ public class Agent  extends Thread{
 
         return (PoAGen
                 .generateDefault()
-                .setResourceOwnerID(recourceOwnerID)
+                .setResourceOwnerID(resourceOwnerID)
                 .setTransferable(transferable)
                 .setPrincipalPublicKey(KeyEncodeDecode.stringEncodedKey(this.agentPublicKey))
                 .setPrincipalName(this.agentName)
@@ -74,7 +75,7 @@ public class Agent  extends Thread{
         if(poa.getTransferable() > 1 && this.lastAgent == 0){
             PoA encapsulatedPoA = PoAGen.transfer(message, previousAgentPubKey);
             String nextAgent = "agent" + (Integer.parseInt(this.agentName.substring(5, 6)) + 1);
-            encapsulatedPoA.setAgentName(nextAgent);
+            //encapsulatedPoA.setAgentName(nextAgent);
             encapsulatedPoA.setAgentPublicKey(KeyEncodeDecode.stringEncodedKey(Getters.getPub(nextAgent)));
             sendPoA(encapsulatedPoA, this.agentIP, Integer.parseInt(Getters.getPort(nextAgent)));
 
@@ -103,7 +104,7 @@ public class Agent  extends Thread{
 
     // When main runs .start on an object, this function is invoked
     public void run(){
-        System.out.println("Now " + this.agentName + " starts!\n");
+        System.out.println("\nNow " + this.agentName + " starts!\n");
         String prevAgentName = "agent" + (Integer.parseInt(this.agentName.substring(5, 6)) - 1);
         //System.out.println(prevAgentName);
         recivePoA(Getters.getPub(prevAgentName));

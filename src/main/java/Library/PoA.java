@@ -131,7 +131,6 @@ public class PoA {
             String principalPublicKey,
             String principalName,
             String agentKey,
-            String agentName,
             Date issuedAt,
             Date expiredAt,
             String metaData) {
@@ -141,7 +140,6 @@ public class PoA {
         this.transferable = transferable;
         this.principalName = principalName;
         this.agentPublicKey = agentKey;
-        this.agentName = agentName;
         this.issuedAt = issuedAt;
         this.expiredAt = expiredAt;
         this.metaData = metaData;
@@ -166,9 +164,9 @@ public class PoA {
                 .signWith(privateKey)
                 .setIssuedAt(this.issuedAt)
                 .setExpiration(this.expiredAt)
-                .claim("pricipalPublicKey", this.principalPublicKey)
+                .claim("principalPublicKey", this.principalPublicKey)
                 .claim("principalName", this.principalName)
-                .claim("recourceOwnerID", this.resourceOwnerID)
+                .claim("resourceOwnerID", this.resourceOwnerID)
                 .claim("transferable", this.transferable)
                 .claim("metaData", this.metaData)
                 .claim("agentKey", this.agentPublicKey)
