@@ -80,7 +80,7 @@ public class PoAGen {
                 (String) body.get("principalPublicKey"),
                 (String) body.get("principalName"),
                 (String) body.get("agentKey"),
-            
+                (String) body.get("agentName"),
             // then it setse up date information for when this object was generated (iat),
             // when it expires (exp), what its metaData is (path) as well as setting up how to encode
             // its public key into string form using KeyEncDecoder

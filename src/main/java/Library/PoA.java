@@ -131,6 +131,7 @@ public class PoA {
             String principalPublicKey,
             String principalName,
             String agentKey,
+            String agentName,
             Date issuedAt,
             Date expiredAt,
             String metaData) {
@@ -140,6 +141,7 @@ public class PoA {
         this.transferable = transferable;
         this.principalName = principalName;
         this.agentPublicKey = agentKey;
+        this.agentName = agentName;
         this.issuedAt = issuedAt;
         this.expiredAt = expiredAt;
         this.metaData = metaData;
@@ -170,6 +172,7 @@ public class PoA {
                 .claim("transferable", this.transferable)
                 .claim("metaData", this.metaData)
                 .claim("agentKey", this.agentPublicKey)
+                .claim("agentName", this.agentName)
                 .claim("signingAlogrithm", "RS256")
                 .claim("path",this.path)
                 .compact();

@@ -20,6 +20,7 @@ public class Agent  extends Thread{
                  int agentID,
                  String agentIP, int lastAgent){
 
+        System.out.println(agentName);
 
         this.agentPrivateKey = Getters.getPriv(agentName);
         this.agentPublicKey = Getters.getPub(agentName);
@@ -69,17 +70,18 @@ public class Agent  extends Thread{
         String message = this.com.receiveCom(Integer.valueOf(Getters.getPort(this.agentName)));
         //System.out.println(this.agentName + " recived from reciveCom");
         PoA poa = PoAGen.reconstruct(message, previousAgentPubKey);
-        print(poa);
+
 
 
         if(poa.getTransferable() > 1 && this.lastAgent == 0){
             PoA encapsulatedPoA = PoAGen.transfer(message, previousAgentPubKey);
             String nextAgent = "agent" + (Integer.parseInt(this.agentName.substring(5, 6)) + 1);
-            //encapsulatedPoA.setAgentName(nextAgent);
+            encapsulatedPoA.setAgentName(nextAgent);
             encapsulatedPoA.setAgentPublicKey(KeyEncodeDecode.stringEncodedKey(Getters.getPub(nextAgent)));
             sendPoA(encapsulatedPoA, this.agentIP, Integer.parseInt(Getters.getPort(nextAgent)));
 
         }
+        print(poa);
         System.out.println( "-Result from " + this.agentName + " validating the PoA: " + validatePoA(message, previousAgentPubKey));
         return(poa);
     }

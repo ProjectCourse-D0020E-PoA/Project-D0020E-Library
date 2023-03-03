@@ -16,6 +16,7 @@ public class Main extends Thread{
         KeyPair agent2Keypair       = Keys.keyPairFor(SignatureAlgorithm.RS256);
         KeyPair agent3Keypair       = Keys.keyPairFor(SignatureAlgorithm.RS256);
 
+
         Setters.InsertNew("agent0",
                 KeyEncodeDecode.stringEncodedKey(agent0Keypair.getPrivate()),
                 KeyEncodeDecode.stringEncodedKey(agent0Keypair.getPublic()),
