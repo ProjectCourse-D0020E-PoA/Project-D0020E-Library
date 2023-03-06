@@ -32,7 +32,7 @@
         <connection>scm:git:https://github.com/infinitymalle/Project-D0020E.git</connection>
         <developerConnection>scm:git:https://github.com/infinitymalle/Project-D0020E.git</developerConnection>
         <url>https://github.com/infinitymalle/Project/tree/Master</url>
-        <tag>5</tag>
+        <tag>55</tag>
     </scm>
 
     <build>
