@@ -30,7 +30,7 @@
     <!-- help -->
     <scm>
         <connection>scm:git:https://github.com/infinitymalle/Project-D0020E.git</connection>
-        <developerConnection>scm:git:https://github.com:infinitymalle/Project-D0020E.git</developerConnection>
+        <developerConnection>scm:git:https://github.com/infinitymalle/Project-D0020E.git</developerConnection>
         <url>https://github.com/infinitymalle/Project/tree/Master</url>
         <tag>5</tag>
     </scm>
