@@ -18,7 +18,8 @@ public class Agent  extends Thread{
 
     public Agent(String agentName,
                  int agentID,
-                 String agentIP, int lastAgent){
+                 String agentIP,
+                 int lastAgent){
 
         System.out.println(agentName);
 
@@ -32,7 +33,10 @@ public class Agent  extends Thread{
     }
     public Agent(String agentName,
                  int agentID,
-                 String agentIP, int lastAgent, Key agentPublicKey, Key agentPrivateKey){
+                 String agentIP,
+                 int lastAgent,
+                 Key agentPublicKey,
+                 Key agentPrivateKey){
 
 
         this.agentName = agentName;
