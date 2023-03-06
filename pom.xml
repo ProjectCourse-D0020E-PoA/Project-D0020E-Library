@@ -25,6 +25,34 @@
             <organization>SRT</organization>
             <organizationUrl>https://www.ltu.se/org/srt</organizationUrl>
         </developer>
+
+        <developer>
+            <name>Malkolm Lundkvoist</name>
+            <email>amouli-0@student.ltu.se</email>
+            <organization>SRT</organization>
+            <organizationUrl>https://www.ltu.se/org/srt</organizationUrl>
+        </developer>
+
+        <developer>
+            <name>Albert Renell</name>
+            <email>albren-0@student.ltu.se</email>
+            <organization>SRT</organization>
+            <organizationUrl>https://www.ltu.se/org/srt</organizationUrl>
+        </developer>
+
+        <developer>
+            <name>Jacky Phoung</name>
+            <email>jacpho-7@student.ltu.se</email>
+            <organization>SRT</organization>
+            <organizationUrl>https://www.ltu.se/org/srt</organizationUrl>
+        </developer>
+
+        <developer>
+            <name>Jacob Sjöström</name>
+            <email>jacsjs-0@student.ltu.se</email>
+            <organization>SRT</organization>
+            <organizationUrl>https://www.ltu.se/org/srt</organizationUrl>
+        </developer>
     </developers>
 
     <!-- help -->
