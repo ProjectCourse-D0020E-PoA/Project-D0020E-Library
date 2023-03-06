@@ -29,8 +29,8 @@
 
     <!-- help -->
     <scm>
-        <connection>scm:git:https://github.com/infinitymalle/Project-D0020E/tree/main/src/main/java/Library.git</connection>
-        <developerConnection>scm:git:https://github.com/infinitymalle/Project-D0020E/tree/main/src/main/java/Library.git</developerConnection>
+        <connection>scm:git:https://github.com/infinitymalle/Project-D0020E.git</connection>
+        <developerConnection>scm:git:https://github.com:infinitymalle/Project-D0020E.git</developerConnection>
         <url>https://github.com/infinitymalle/Project/tree/Master</url>
         <tag>5</tag>
     </scm>
