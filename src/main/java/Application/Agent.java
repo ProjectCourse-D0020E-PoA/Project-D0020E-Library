@@ -106,6 +106,7 @@ public class Agent  extends Thread{
 
     // When main runs .start on an object, this function is invoked
     public void run(){
+
         System.out.println("\nNow " + this.agentName + " starts!\n");
         String prevAgentName = "agent" + (Integer.parseInt(this.agentName.substring(5, 6)) - 1);
         //System.out.println(prevAgentName);

@@ -4,9 +4,38 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>groupId</groupId>
+    <groupId>com.gitHub.Project-D0020E</groupId>
     <artifactId>Project-D0020E</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>PoA-demo</name>
+    <description>A PoA demo</description>
+    <url>https://https://github.com/infinitymalle/Project-D0020E</url>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Isak Forsgren</name>
+            <email>isafor-0@student.ltu.se</email>
+            <organization>SRT</organization>
+            <organizationUrl>https://www.ltu.se/org/srt</organizationUrl>
+        </developer>
+    </developers>
+
+    <!-- help -->
+    <scm>
+        <connection>scm:git:https://github.com/infinitymalle/Project-D0020E/tree/main/src/main/java/Library.git</connection>
+        <developerConnection>scm:git:https://github.com/infinitymalle/Project-D0020E/tree/main/src/main/java/Library.git</developerConnection>
+        <url>https://github.com/infinitymalle/Project/tree/Master</url>
+        <tag>master</tag>
+    </scm>
 
     <build>
         <plugins>
@@ -30,6 +59,14 @@
                             <mainClass>Library.Main</mainClass>
                         </manifest>
                     </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>3.0.0-M7</version>
+                <configuration>
+                    <tagNameFormat>v@{project.version}</tagNameFormat>
                 </configuration>
             </plugin>
         </plugins>
