@@ -4,9 +4,6 @@ package Library;
 import java.security.*;
 import java.util.Date;
 
-import Database.DB;
-import Database.Getters;
-import Database.Setters;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -28,29 +25,7 @@ public class Main {
         PrivateKey decPrivKey = (PrivateKey) KeyEncodeDecode.decodeKeyBytesPrivate(encPrivKey);
         System.out.println(decPrivKey.equals(principalKeypair.getPrivate()));
 
-        DB.createTable();
 
-
-        //Setters.InsertNew("Agent0","privateKey","publicKey","ip",5);
-        //Setters.InsertNew("Agent1","privateKey","publicKey","ip",25);
-        //Setters.InsertNew("Agent2","privateKey","publicKey","ip",125);
-        //Setters.InsertNew("Agent3","privateKey","publicKey","ip",625);
-        //Setters.InsertNew("Agent4","privateKey","publicKey","ip",3125);
-
-        Setters.UpdateKeys(
-                "Agent0",
-                KeyEncodeDecode.stringEncodedKey(principalKeypair.getPrivate()),
-                KeyEncodeDecode.stringEncodedKey(principalKeypair.getPublic()));
-
-        Getters.getPub("Agent0");
-        Getters.getPriv("Agent0");
-
-        Setters.UpdateIP("Agent0","0.0.0.bob","5555");
-
-        //DB.createTable();
-        //DB.Connect();
-        /** Principal */
-        //principal generates a PoA and "sends" it to agent1
         PoA principalPoa = PoAGen
                 .generateDefault()
                 .setTransferable(1)
