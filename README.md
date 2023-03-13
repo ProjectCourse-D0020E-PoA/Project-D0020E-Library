@@ -1,4 +1,4 @@
-To inslall this library simply copy the Library package and use the methods within that.
+To install this library simply copy the Library package and use the methods within that.
 There is a Main file within the folder that could be used to test the library functionality
 
 # Project-D0020E POA lib
