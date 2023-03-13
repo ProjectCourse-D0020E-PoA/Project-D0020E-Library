@@ -1,3 +1,6 @@
+To inslall this library simply copy the Library package and use the methods within that.
+There is a Main file within the folder that could be used to test the library functionality
+
 # Project-D0020E POA lib
 The library is intended to be published to some public java Library site ex Maven.
 Currently, the library code is just in a separate repository to emulate having it as an import for our test applications.
